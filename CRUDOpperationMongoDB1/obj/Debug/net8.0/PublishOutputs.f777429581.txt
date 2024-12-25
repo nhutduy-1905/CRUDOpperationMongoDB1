@@ -1,0 +1,11 @@
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\CRUDOpperationMongoDB1.exe
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\appsettings.Development.json
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\appsettings.json
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\CRUDOpperationMongoDB1.dll
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\CRUDOpperationMongoDB1.deps.json
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\CRUDOpperationMongoDB1.runtimeconfig.json
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\CRUDOpperationMongoDB1.pdb
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\Microsoft.OpenApi.dll
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
