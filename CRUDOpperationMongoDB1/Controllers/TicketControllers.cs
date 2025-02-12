@@ -4,28 +4,84 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDOpperationMongoDB1.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+   
+
     [ApiController]
     [Route("api/[controller]")]
     public class TicketController : ControllerBase
     {
-        private static List<Ticket> tickets = new List<Ticket>();
-        private static int idCounter = 1;
+        private readonly TicketService _ticketService;
 
-        [HttpPost("createTicket")]
-        public IActionResult CreateTicket([FromBody] TicketDTO ticketDTO)
+        public TicketController(TicketService ticketService)
         {
-            if (ticketDTO == null) return BadRequest("Invalid ticket data.");
+            _ticketService = ticketService;
+        }
 
-            // Mapping từ DTO sang Entity
-            var ticket = ticketDTO.ToTicket();
-            ticket.Id = idCounter++; // Auto-generate Id
+        // Lấy danh sách tất cả vé
+        [HttpGet]
+        public async Task<List<TicketDTO>> Get() =>
+            await _ticketService.GetAllTicketsAsync();
 
-            // Lưu vào danh sách hoặc cơ sở dữ liệu
-            tickets.Add(ticket);
+        // Lấy vé theo ID
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TicketDTO>> Get(string id)
+        {
+            var ticket = await _ticketService.GetByIdAsync(id);
 
-            return Ok(new { Message = "Ticket created successfully.", TicketId = ticket.Id });
+            if (ticket is null)
+            {
+                return NotFound();
+            }
+
+            return ticket;
+        }
+
+        // Tạo vé mới
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateTicketDTO dto)
+        {
+            var newTicket = await _ticketService.CreateTicketAsync(dto);
+            return Ok(newTicket);
+        }
+
+        // Cập nhật vé
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(string id, Ticket updatedTicket)
+        {
+            var ticket = await _ticketService.GetByIdAsync(id);
+
+            if (ticket is null)
+            {
+                return NotFound();
+            }
+
+            updatedTicket.Id = ticket.Id;
+
+            await _ticketService.UpdateTicketAsync(id, updatedTicket);
+
+            return Ok();
+        }
+
+        // Xóa vé theo ID
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var ticket = await _ticketService.GetByIdAsync(id);
+
+            if (ticket is null)
+            {
+                return NotFound();
+            }
+
+            await _ticketService.RemoveTicketAsync(id);
+
+            return Ok();
         }
     }
+
 }
 
 //    [ApiController]

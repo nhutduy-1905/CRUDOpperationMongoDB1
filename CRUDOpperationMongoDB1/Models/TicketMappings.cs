@@ -5,49 +5,87 @@ using MongoDB.Bson;
 
 namespace CRUDOpperationMongoDB1.Services
 {
-    public  static class TicketMappings
-    {
-        private static DateTime? toDate;
+    using System;
 
-        //private readonly IMongoCollection<Items> _itemsCollection;
+    public static class TicketMappings
+    {
+        // Chuyển từ DTO thành Entity
         public static Ticket ToTicket(this TicketDTO dto)
         {
-            var dateRange = dto.TravelDateRange.Split(" - ");
-            DateTime fromDate = DateTime.ParseExact(dateRange[0], "dd/MM/yyyy", null);
-            DateTime? value = dateRange.Length > 1 ? DateTime.ParseExact(dateRange[1], "dd/MM/yyyy", null) : null;
-          
-
             return new Ticket
             {
+                Id = Guid.NewGuid(),
                 TicketType = dto.TicketType,
                 FromAddress = dto.FromAddress,
                 ToAddress = dto.ToAddress,
-                FromDate = fromDate,
-                ToDate = toDate,
+                FromDate = DateTime.Parse(dto.FromDate),
+                ToDate = string.IsNullOrEmpty(dto.ToDate) ? DateTime.MinValue : DateTime.Parse(dto.ToDate),
                 Quantity = dto.Quantity,
                 CustomerName = dto.CustomerName,
                 CustomerPhone = dto.CustomerPhone
             };
         }
 
-        public static TicketDTO ToTicketDTO(this Ticket ticket)
+        // Chuyển từ Entity thành DTO
+        public static TicketDTO ToTicketDTO(this Ticket entity)
         {
-            string travelDateRange = ticket.ToDate.HasValue
-                ? $"{ticket.FromDate:dd/MM/yyyy} - {ticket.ToDate:dd/MM/yyyy}"
-                : $"{ticket.FromDate:dd/MM/yyyy}";
-
             return new TicketDTO
             {
-                TicketType = ticket.TicketType,
-                FromAddress = ticket.FromAddress,
-                ToAddress = ticket.ToAddress,
-                TravelDateRange = travelDateRange,
-                Quantity = ticket.Quantity,
-                CustomerName = ticket.CustomerName,
-                CustomerPhone = ticket.CustomerPhone
+                TicketType = entity.TicketType,
+                FromAddress = entity.FromAddress,
+                ToAddress = entity.ToAddress,
+                FromDate = entity.FromDate.ToString("dd/MM/yyyy"),
+                ToDate = entity.ToDate == DateTime.MinValue ? "" : entity.ToDate.ToString("dd/MM/yyyy"),
+                Quantity = entity.Quantity,
+                CustomerName = entity.CustomerName,
+                CustomerPhone = entity.CustomerPhone
             };
         }
     }
+
+    //public  static class TicketMappings
+    //{
+    //    private static DateTime? toDate;
+
+    //    //private readonly IMongoCollection<Items> _itemsCollection;
+    //    public static Ticket ToTicket(this TicketDTO dto)
+    //    {
+    //        var dateRange = dto.TravelDateRange.Split(" - ");
+    //        DateTime fromDate = DateTime.ParseExact(dateRange[0], "dd/MM/yyyy", null);
+    //        DateTime? value = dateRange.Length > 1 ? DateTime.ParseExact(dateRange[1], "dd/MM/yyyy", null) : null;
+
+
+    //        return new Ticket
+    //        {
+    //            TicketType = dto.TicketType,
+    //            FromAddress = dto.FromAddress,
+    //            ToAddress = dto.ToAddress,
+    //            FromDate = fromDate,
+    //            ToDate = toDate,
+    //            Quantity = dto.Quantity,
+    //            CustomerName = dto.CustomerName,
+    //            CustomerPhone = dto.CustomerPhone
+    //        };
+    //    }
+
+    //    public static TicketDTO ToTicketDTO(this Ticket ticket)
+    //    {
+    //        string travelDateRange = ticket.ToDate.HasValue
+    //            ? $"{ticket.FromDate:dd/MM/yyyy} - {ticket.ToDate:dd/MM/yyyy}"
+    //            : $"{ticket.FromDate:dd/MM/yyyy}";
+
+    //        return new TicketDTO
+    //        {
+    //            TicketType = ticket.TicketType,
+    //            FromAddress = ticket.FromAddress,
+    //            ToAddress = ticket.ToAddress,
+    //            TravelDateRange = travelDateRange,
+    //            Quantity = ticket.Quantity,
+    //            CustomerName = ticket.CustomerName,
+    //            CustomerPhone = ticket.CustomerPhone
+    //        };
+    //    }
+    //}
 
     // code cũ
     //public ItemService(IOptions<MongoDbSettings> mongoDbSettings)

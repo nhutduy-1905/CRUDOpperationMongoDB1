@@ -8,27 +8,32 @@ namespace CRUDOpperationMongoDB1.Models
     // Test
     public class Ticket
     {
-        public int Id { get; set; }
-        public string TicketType { get; set; }
-        public string FromAddress { get; set; }
-        public string ToAddress { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime? ToDate { get; set; }
-        public int Quantity { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerPhone { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid(); 
+        public string TicketType { get; set; } 
+        public string FromAddress { get; set; } 
+        public string ToAddress { get; set; } 
+        public DateTime FromDate { get; set; } 
+        public DateTime ToDate { get; set; } 
+        public int Quantity { get; set; } 
+        public string CustomerName { get; set; } 
+        public string CustomerPhone { get; set; } 
     }
+    
+
     public class TicketDTO
     {
         public string TicketType { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
-        public string TravelDateRange { get; set; } 
+        public string FromDate { get; set; } 
+        public string ToDate { get; set; }
         public int Quantity { get; set; }
         public string CustomerName { get; set; }
         public string CustomerPhone { get; set; }
     }
+
 }
+
     
 
         //[BsonId]
