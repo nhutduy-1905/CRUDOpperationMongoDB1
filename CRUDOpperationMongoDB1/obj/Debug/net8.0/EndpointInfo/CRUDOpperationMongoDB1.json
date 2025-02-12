@@ -5,164 +5,30 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Items": {
-      "get": {
-        "tags": [
-          "Items"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Items"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Items"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Items"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+    "/api/Ticket/createTicket": {
       "post": {
         "tags": [
-          "Items"
+          "Ticket"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Items"
+                "$ref": "#/components/schemas/TicketDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Items"
+                "$ref": "#/components/schemas/TicketDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Items"
+                "$ref": "#/components/schemas/TicketDTO"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Items/{id}": {
-      "get": {
-        "tags": [
-          "Items"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Items"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Items"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Items"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Items"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Items"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Items"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Items"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Items"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -212,20 +78,36 @@
   },
   "components": {
     "schemas": {
-      "Items": {
+      "TicketDTO": {
         "type": "object",
         "properties": {
-          "id": {
+          "ticketType": {
             "type": "string",
             "nullable": true
           },
-          "name": {
+          "fromAddress": {
             "type": "string",
             "nullable": true
           },
-          "price": {
-            "type": "number",
-            "format": "double"
+          "toAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "travelDateRange": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerPhone": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

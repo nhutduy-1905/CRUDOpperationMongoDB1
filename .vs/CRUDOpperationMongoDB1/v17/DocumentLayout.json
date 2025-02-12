@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\services\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\services\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\models\\items.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\models\\items.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\controllers\\itemscontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\controllers\\itemscontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,96 +23,31 @@
       "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\models\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\models\\items.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\models\\items.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\services\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\services\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\bsoncollectionattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\bsoncollectionattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\crudopperationmongodb1.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\crudopperationmongodb1.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|d:\\vlu_cntt\\oop\\crudopperationmongodb1\\crudopperationmongodb1\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6CCAD530-7193-441C-B12C-22CD415F2789}|CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.csproj|solutionrelative:crudopperationmongodb1\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "DockedHeight": 200,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BsonCollectionAttribute.cs",
-              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
-              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
-              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
-              "RelativeToolTip": "CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T15:43:02.607Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\appsettings.json",
-              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\appsettings.json",
-              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\appsettings.json",
-              "RelativeToolTip": "CRUDOpperationMongoDB1\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-17T15:29:40.906Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ItemsControllers.cs",
-              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
-              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
-              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
-              "RelativeToolTip": "CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T15:26:37.435Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ItemService.cs",
-              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Services\\ItemService.cs",
-              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Services\\ItemService.cs",
-              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Services\\ItemService.cs",
-              "RelativeToolTip": "CRUDOpperationMongoDB1\\Services\\ItemService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T15:21:12.045Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MongoDbSettings.cs",
-              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
-              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
-              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
-              "RelativeToolTip": "CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T15:18:33.771Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -109,21 +56,119 @@
               "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Models\\Items.cs",
               "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Models\\Items.cs",
               "RelativeToolTip": "CRUDOpperationMongoDB1\\Models\\Items.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T15:17:06.681Z"
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ItemService.cs",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Services\\ItemService.cs",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Services\\ItemService.cs",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Services\\ItemService.cs",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\Services\\ItemService.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAAAAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T15:21:12.045Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\appsettings.json",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\appsettings.json",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\appsettings.json",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-17T15:29:40.906Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ItemsControllers.cs",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\Controllers\\ItemsControllers.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T15:26:37.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Program.cs",
               "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Program.cs",
               "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Program.cs",
               "RelativeToolTip": "CRUDOpperationMongoDB1\\Program.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAowBIAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAMwBIAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T14:52:26.464Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MongoDbSettings.cs",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\Models\\MongoDbSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T15:18:33.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CRUDOpperationMongoDB1.http",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.http",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.http",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.http",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-12-25T15:45:43.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BsonCollectionAttribute.cs",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\BsonCollectionAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T15:43:02.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Properties\\launchSettings.json",
+              "RelativeToolTip": "CRUDOpperationMongoDB1\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-25T15:47:08.174Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 68,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

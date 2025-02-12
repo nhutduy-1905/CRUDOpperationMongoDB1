@@ -16,7 +16,7 @@ namespace CRUDOpperationMongoDB1
                 builder.Configuration.GetSection("MongoDbSettings"));
 
             // Register ItemService
-            builder.Services.AddSingleton<ItemService>();
+            builder.Services.AddSingleton<Ticket>();
 
             // Add controllers
             builder.Services.AddControllers();
