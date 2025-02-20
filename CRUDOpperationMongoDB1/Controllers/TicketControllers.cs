@@ -1,16 +1,15 @@
-﻿using CRUDOpperationMongoDB1.Models;
-using CRUDOpperationMongoDB1.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TicketAPI.Models;
+using TicketAPI.Services;
+using TicketAPI.DTOs;
+using TicketAPI.Mappings;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace CRUDOpperationMongoDB1.Controllers
+namespace TicketAPI.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-   
-
+    [Route("api/tickets")]
     [ApiController]
-    [Route("api/[controller]")]
     public class TicketController : ControllerBase
     {
         private readonly TicketService _ticketService;
@@ -20,136 +19,36 @@ namespace CRUDOpperationMongoDB1.Controllers
             _ticketService = ticketService;
         }
 
-        // Lấy danh sách tất cả vé
-        [HttpGet]
-        public async Task<List<TicketDTO>> Get() =>
-            await _ticketService.GetAllTicketsAsync();
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateTicket([FromBody] CreateTicketDTO ticketDto)
+        {
+            if (ticketDto == null || string.IsNullOrEmpty(ticketDto.CustomerPhone))
+            {
+                return BadRequest(new { error = "Invalid ticket data" });
+            }
 
-        // Lấy vé theo ID
+            var ticket = TicketMapper.ToEntity(ticketDto);
+            await _ticketService.CreateAsync(ticket);
+
+            return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, TicketMapper.ToDTO(ticket));
+        }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<TicketDTO>> Get(string id)
+        public async Task<IActionResult> GetTicketById(string id)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
+            if (ticket == null) return NotFound(new { error = "Ticket not found" });
 
-            if (ticket is null)
-            {
-                return NotFound();
-            }
-
-            return ticket;
+            return Ok(TicketMapper.ToDTO(ticket));
         }
 
-        // Tạo vé mới
-        [HttpPost]
-        public async Task<IActionResult> Post(CreateTicketDTO dto)
+        [HttpGet]
+        public async Task<IActionResult> GetAllTickets()
         {
-            var newTicket = await _ticketService.CreateTicketAsync(dto);
-            return Ok(newTicket);
-        }
+            var tickets = await _ticketService.GetAsync();
+            var ticketDTOs = tickets.ConvertAll(ticket => TicketMapper.ToDTO(ticket));
 
-        // Cập nhật vé
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, Ticket updatedTicket)
-        {
-            var ticket = await _ticketService.GetByIdAsync(id);
-
-            if (ticket is null)
-            {
-                return NotFound();
-            }
-
-            updatedTicket.Id = ticket.Id;
-
-            await _ticketService.UpdateTicketAsync(id, updatedTicket);
-
-            return Ok();
-        }
-
-        // Xóa vé theo ID
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
-        {
-            var ticket = await _ticketService.GetByIdAsync(id);
-
-            if (ticket is null)
-            {
-                return NotFound();
-            }
-
-            await _ticketService.RemoveTicketAsync(id);
-
-            return Ok();
+            return Ok(ticketDTOs);
         }
     }
-
 }
-
-//    [ApiController]
-//    [Route("api/[controller]")]
-//    public class ItemsController : ControllerBase
-//    {
-//        private readonly ItemService _itemService;
-
-//        public ItemsController(ItemService itemService)
-//        {
-//            _itemService = itemService;
-//        }
-//        [HttpGet]
-//        public async Task<List<ItemDTO>> Get() =>
-//            await _itemService.GetAsync();
-
-//        [HttpGet("{id}")]
-//        public async Task<ActionResult<ItemDTO>> Get(string id)
-//        {
-//            var item = await _itemService.GetAsync(id);
-
-//            if (item is null)
-//            {
-//                return NotFound();
-//            }
-
-//            return item;
-//        }
-
-//        [HttpPost]
-//        public async Task<IActionResult> Post(CreateItemDTO dto)
-//        {
-//            var newItem = await _itemService.CreateAsync(dto);
-//            return Ok(newItem);
-//        }
-
-//        [HttpPut("{id}")]
-//        public async Task<IActionResult> Put(string id, Items updatedItem)
-//        {
-//            var item = await _itemService.GetAsync(id);
-
-//            if (item is null)
-//            {
-//                return NotFound();
-//            }
-
-//            updatedItem.Id = item.Id;
-
-//            await _itemService.UpdateAsync(id, updatedItem);
-
-//            return Ok();
-//        }
-
-//        [HttpDelete("{id}")]
-//        public async Task<IActionResult> Delete(string id)
-//        {
-//            var item = await _itemService.GetAsync(id);
-
-//            if (item is null)
-//            {
-//                return NotFound();
-//            }
-
-//            await _itemService.RemoveAsync(id);
-
-//            return Ok();
-//        }
-
-//    }
-
-//}

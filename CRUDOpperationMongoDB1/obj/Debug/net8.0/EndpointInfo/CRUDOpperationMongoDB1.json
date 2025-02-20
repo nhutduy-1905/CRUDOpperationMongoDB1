@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Ticket/createTicket": {
+    "/api/tickets/create": {
       "post": {
         "tags": [
           "Ticket"
@@ -14,21 +14,55 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TicketDTO"
+                "$ref": "#/components/schemas/CreateTicketDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TicketDTO"
+                "$ref": "#/components/schemas/CreateTicketDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TicketDTO"
+                "$ref": "#/components/schemas/CreateTicketDTO"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/tickets/{id}": {
+      "get": {
+        "tags": [
+          "Ticket"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/tickets": {
+      "get": {
+        "tags": [
+          "Ticket"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -78,7 +112,7 @@
   },
   "components": {
     "schemas": {
-      "TicketDTO": {
+      "CreateTicketDTO": {
         "type": "object",
         "properties": {
           "ticketType": {
@@ -93,9 +127,13 @@
             "type": "string",
             "nullable": true
           },
-          "travelDateRange": {
+          "fromDate": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
           },
           "quantity": {
             "type": "integer",

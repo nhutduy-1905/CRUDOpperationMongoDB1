@@ -1,43 +1,34 @@
-﻿namespace CRUDOpperationMongoDB1.Services
-{
-    using CRUDOpperationMongoDB1.Models;
-    using System;
-    using System.Collections.Generic;
+﻿using MongoDB.Driver;
+using TicketAPI.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using CRUDOpperationMongoDB1.Models;
 
+namespace TicketAPI.Services
+{
     public class TicketService
     {
-        private List<Ticket> tickets = new List<Ticket>(); // Danh sách lưu vé
+        private readonly IMongoCollection<Ticket> _tickets;
 
-        class Program
+        public TicketService(IOptions<MongoDBSettings> settings)
         {
-            static void Main()
-            {
-                TicketService ticketService = new TicketService();
-
-
-
-                TicketDTO newTicket = new TicketDTO
-                {
-                    TicketType = "Khứ hồi",
-                    FromAddress = "HCM",
-                    ToAddress = "HN",
-                    FromDate = "21/01/2025",
-                    ToDate = "10/02/2025",
-                    Quantity = 1,
-                    CustomerName = "Nguyễn Văn A",
-                    CustomerPhone = "0988989890"
-                };
-
-                Ticket createdTicket = ticketService.CreateTicket(newTicket);
-
-                var tickets = ticketService.GetAllTickets();
-                foreach (var t in tickets)
-                {
-                    Console.WriteLine($"📝 Vé: {t.CustomerName} | {t.FromAddress} -> {t.ToAddress} | {t.FromDate} - {t.ToDate}");
-                }
-            }
+            var client = new MongoClient(settings.Value.ConnectionString);
+            var database = client.GetDatabase(settings.Value.DatabaseName);
+            _tickets = database.GetCollection<Ticket>("Tickets");
         }
 
-    }
+        public async Task<List<Ticket>> GetAsync() => await _tickets.Find(t => true).ToListAsync();
 
+       public async Task<Ticket> GetByIdAsync(string id) =>
+              await _tickets.Find(t => t.Id == id).FirstOrDefaultAsync();
+
+        public async Task CreateAsync(Ticket ticket) =>
+            await _tickets.InsertOneAsync(ticket);
+    }
 }
+
+
+
+
+

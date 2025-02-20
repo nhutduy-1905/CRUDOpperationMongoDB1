@@ -1,9 +1,16 @@
-﻿namespace CRUDOpperationMongoDB1.Models
+﻿namespace TicketAPI.DTOs
 {
-    public class CreateticketDTO
+    public class CreateTicketDTO
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
+        public string TicketType { get; set; }
+        public string FromAddress { get; set; }
+        public string ToAddress { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int Quantity { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
     }
 }
+
+

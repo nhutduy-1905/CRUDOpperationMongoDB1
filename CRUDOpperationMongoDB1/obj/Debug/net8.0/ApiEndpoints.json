@@ -1,15 +1,41 @@
 [
   {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.TicketController",
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "GetAllTickets",
+    "RelativePath": "api/tickets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "GetTicketById",
+    "RelativePath": "api/tickets/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
     "Method": "CreateTicket",
-    "RelativePath": "api/Ticket/createTicket",
+    "RelativePath": "api/tickets/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "ticketDTO",
-        "Type": "CRUDOpperationMongoDB1.Models.TicketDTO",
+        "Name": "ticketDto",
+        "Type": "TicketAPI.DTOs.CreateTicketDTO",
         "IsRequired": true
       }
     ],
