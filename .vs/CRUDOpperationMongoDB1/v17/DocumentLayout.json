@@ -71,8 +71,7 @@
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T15:17:06.681Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -85,8 +84,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T15:18:33.771Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -96,7 +94,7 @@
               "RelativeDocumentMoniker": "CRUDOpperationMongoDB1\\Services\\TicketService.cs",
               "ToolTip": "D:\\vlu_cntt\\oop\\CRUDOpperationMongoDB1\\CRUDOpperationMongoDB1\\Services\\TicketService.cs",
               "RelativeToolTip": "CRUDOpperationMongoDB1\\Services\\TicketService.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAUwEYAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAADUAAAAAAAAAAIBBwEYAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-12T14:32:20.923Z",
               "EditorCaption": ""
@@ -111,8 +109,7 @@
               "RelativeToolTip": "CRUDOpperationMongoDB1\\Controllers\\TicketControllers.cs",
               "ViewState": "AgIAANMAAAAAAAAAAAAAAOAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T15:26:37.435Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-17T15:26:37.435Z"
             },
             {
               "$type": "Document",
