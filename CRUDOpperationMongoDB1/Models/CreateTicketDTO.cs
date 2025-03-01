@@ -10,6 +10,8 @@
         public int Quantity { get; set; }
         public string CustomerName { get; set; }
         public string CustomerPhone { get; set; }
+        public string Status { get; set; } // Thêm trạng thái vào DTO
+
     }
 }
 

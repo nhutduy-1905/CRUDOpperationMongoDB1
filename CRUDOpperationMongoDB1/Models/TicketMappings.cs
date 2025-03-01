@@ -1,5 +1,6 @@
 ﻿using TicketAPI.Models;
 using TicketAPI.DTOs;
+using System.Net.Sockets;
 
 namespace TicketAPI.Mappings
 {
@@ -7,6 +8,9 @@ namespace TicketAPI.Mappings
     {
         public static Ticket ToEntity(CreateTicketDTO dto)
         {
+            // kiem tra co null khong 
+            if (dto == null) return null;
+
             return new Ticket
             {
                 TicketType = dto.TicketType,
@@ -16,12 +20,14 @@ namespace TicketAPI.Mappings
                 ToDate = dto.ToDate,
                 Quantity = dto.Quantity,
                 CustomerName = dto.CustomerName,
-                CustomerPhone = dto.CustomerPhone
+                CustomerPhone = dto.CustomerPhone,
+                Status = "Hoạt động" // Mặc định là hoạt động khi tạo vé mới
             };
         }
 
         public static CreateTicketDTO ToDTO(Ticket entity)
         {
+    
             return new CreateTicketDTO
             {
                 TicketType = entity.TicketType,
@@ -31,7 +37,8 @@ namespace TicketAPI.Mappings
                 ToDate = entity.ToDate,
                 Quantity = entity.Quantity,
                 CustomerName = entity.CustomerName,
-                CustomerPhone = entity.CustomerPhone
+                CustomerPhone = entity.CustomerPhone,
+                Status = entity.Status
             };
         }
     }

@@ -11,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDBSettings")
 );
-builder.Services.AddSingleton<TicketService>();
 // Đăng ký TicketService
 builder.Services.AddSingleton<TicketService>();
 
@@ -30,6 +29,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.UseRouting();
+
 app.Run();
 
 

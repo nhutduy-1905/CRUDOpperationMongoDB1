@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "GetAllTickets",
+    "Method": "GetTickets",
     "RelativePath": "api/tickets",
     "HttpMethod": "GET",
     "IsController": true,
@@ -35,6 +35,85 @@
     "Parameters": [
       {
         "Name": "ticketDto",
+        "Type": "TicketAPI.DTOs.CreateTicketDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "CanCelTicket",
+    "RelativePath": "api/tickets/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "DeleteTicket",
+    "RelativePath": "api/tickets/deleted/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ExportTicketsToExcel",
+    "RelativePath": "api/tickets/export",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ImportTicketsFromExcel",
+    "RelativePath": "api/tickets/import",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "UpdateTicket",
+    "RelativePath": "api/tickets/update/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "toDTO",
         "Type": "TicketAPI.DTOs.CreateTicketDTO",
         "IsRequired": true
       }

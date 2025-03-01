@@ -3,24 +3,41 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace TicketAPI.Models
 {
+
+
+    [BsonIgnoreExtraElements]
     public class Ticket
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]  // Chuyển đổi từ string sang ObjectId tự động
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        public string TicketType { get; set; } // "Khứ hồi", "Một chiều"
-        public string FromAddress { get; set; } // "HCM"
-        public string ToAddress { get; set; } // "HN"
+        [BsonElement("TicketType")]
+        public string TicketType { get; set; }
 
+        public string FromAddress { get; set; }
+
+        public string ToAddress { get; set; }
+
+        [BsonElement("FromDate")]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime FromDate { get; set; } // "21/01/2025"
+        public DateTime FromDate { get; set; }
 
+        [BsonElement("ToDate")]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime ToDate { get; set; } // "10/02/2025"
+        public DateTime ToDate { get; set; }
 
-        public int Quantity { get; set; } // 1
-        public string CustomerName { get; set; } // "Nguyễn Văn A"
-        public string CustomerPhone { get; set; } // "0988989890"
-    }
+        [BsonElement("Quantity")]
+        public int Quantity { get; set; }
+
+        [BsonElement("CustomerName")]
+        public string CustomerName { get; set; }
+
+        [BsonElement("CustomerPhone")]
+        public string CustomerPhone { get; set; }
+
+
+        public string Status { get; set; } = "Hoạt động"; // Mặc định là hoạt động khi tạo vé mới   
+    }   
+
 }
