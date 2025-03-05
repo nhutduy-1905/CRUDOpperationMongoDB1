@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using System.ComponentModel;
 using OfficeOpenXml;
 using MongoDB.Bson;
+using OfficeOpenXml.Style;
 
 namespace TicketAPI.Controllers
 {
@@ -198,30 +199,58 @@ namespace TicketAPI.Controllers
 
                     for (int row = 2; row <= rowCount; row++) // Bỏ qua dòng tiêu đề
                     {
-                        var ticket = new Ticket
-                        {
-                            Id = ObjectId.GenerateNewId().ToString(), // Tạo ID mới nếu cần
-                            TicketType = worksheet.Cells[row, 2].Text,
-                            FromAddress = worksheet.Cells[row, 3].Text,
-                            ToAddress = worksheet.Cells[row, 4].Text,
-                            FromDate = DateTime.Parse(worksheet.Cells[row, 5].Text),
-                            ToDate = DateTime.Parse(worksheet.Cells[row, 6].Text),
-                            Quantity = int.Parse(worksheet.Cells[row, 7].Text),
-                            CustomerName = worksheet.Cells[row, 8].Text,
-                            CustomerPhone = worksheet.Cells[row, 9].Text,
-                            Status = worksheet.Cells[row, 10].Text
-                        };
+                        var ticketId = worksheet.Cells[row, 1].Text.Trim();
+                        var ticketType = worksheet.Cells[row, 2].Text.Trim();
+                        var fromAddress = worksheet.Cells[row, 3].Text.Trim();
+                        var toAddress = worksheet.Cells[row, 4].Text.Trim();
+                        var fromDate = DateTime.Parse(worksheet.Cells[row, 5].Text.Trim());
+                        var toDate = DateTime.Parse(worksheet.Cells[row, 6].Text.Trim());
+                        var quantity = int.Parse(worksheet.Cells[row, 7].Text.Trim());
+                        var customerName = worksheet.Cells[row, 8].Text.Trim();
+                        var customerPhone = worksheet.Cells[row, 9].Text.Trim();
+                        var status = worksheet.Cells[row, 10].Text.Trim();
 
-                        tickets.Add(ticket);
+                        var existingTicket = await _ticketService.GetByIdAsync(ticketId);
+                        if (existingTicket != null) // Vé đã tồn tại, cập nhật thông tin
+                        {
+                            existingTicket.TicketType = ticketType;
+                            existingTicket.FromAddress = fromAddress;
+                            existingTicket.ToAddress = toAddress;
+                            existingTicket.FromDate = fromDate;
+                            existingTicket.ToDate = toDate;
+                            existingTicket.Quantity = quantity;
+                            existingTicket.CustomerName = customerName;
+                            existingTicket.CustomerPhone = customerPhone;
+                            existingTicket.Status = status;
+
+                            await _ticketService.UpdateAsync(ticketId, existingTicket);
+                        }
+                        else // Vé chưa tồn tại, tạo mới
+                        {
+                            var newTicket = new Ticket
+                            {
+                                Id = ticketId,
+                                TicketType = ticketType,
+                                FromAddress = fromAddress,
+                                ToAddress = toAddress,
+                                FromDate = fromDate,
+                                ToDate = toDate,
+                                Quantity = quantity,
+                                CustomerName = customerName,
+                                CustomerPhone = customerPhone,
+                                Status = status
+                            };
+
+                            await _ticketService.CreateAsync(newTicket);
+                        }
                     }
                 }
             }
-
-            // Lưu vào MongoDB
-            await _ticketService.InsertManyAsync(tickets);
-
-            return Ok(new { Message = "Import thành công!", Total = tickets.Count });
+            return Ok(new { message = "Import danh sách vé thành công!" });
         }
+                   
+
+       
         [HttpDelete("deleted/{id}")]
         public async Task<IActionResult> DeleteTicket(string id)
         {
@@ -234,6 +263,88 @@ namespace TicketAPI.Controllers
 
             return Ok(new { message = $"Đã xóa vé với ID: {id}" });
         }
+
+        [HttpGet("export-location")]
+        public async Task<IActionResult> ExportTicketsToExcel([FromQuery] string? fromAddress, [FromQuery] string? toAddress)
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            // Xây dựng bộ lọc dựa trên đầu vào
+            var filter = Builders<Ticket>.Filter.Empty; // Mặc định lấy tất cả dữ liệu
+            if (!string.IsNullOrEmpty(fromAddress) && !string.IsNullOrEmpty(toAddress))
+            {
+                filter = Builders<Ticket>.Filter.And(
+                    Builders<Ticket>.Filter.Eq(t => t.FromAddress, fromAddress),
+                    Builders<Ticket>.Filter.Eq(t => t.ToAddress, toAddress)
+                );
+            }
+            
+            else if (!string.IsNullOrEmpty(fromAddress))
+            {
+                filter = Builders<Ticket>.Filter.Eq(t => t.FromAddress, fromAddress);
+            }
+            else if (!string.IsNullOrEmpty(toAddress))
+            {
+                filter = Builders<Ticket>.Filter.Eq(t => t.ToAddress, toAddress);
+            }
+
+            var tickets = await _ticketService.Find(f => f.ToAddress == "Ca Mau" && f.FromAddress == "TPHCM"); // Lấy danh sách vé theo điều kiện lọc
+             // var tickets = await _ticketService.Find(filter);
+            if (!tickets.Any())  return BadRequest("Không có dữ liệu để xuất.");
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Tickets");
+
+                // Tiêu đề cột
+                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 2].Value = "Loại Vé";
+                worksheet.Cells[1, 3].Value = "Điểm Đi";
+                worksheet.Cells[1, 4].Value = "Điểm Đến";
+                worksheet.Cells[1, 5].Value = "Ngày Đi";
+                worksheet.Cells[1, 6].Value = "Ngày Đến";
+                worksheet.Cells[1, 7].Value = "Số Lượng";
+                worksheet.Cells[1, 8].Value = "Tên Khách Hàng";
+                worksheet.Cells[1, 9].Value = "SĐT Khách Hàng";
+                worksheet.Cells[1, 10].Value = "Trạng Thái";
+
+                // Ghi dữ liệu vào file Excel
+                int row = 2;
+                foreach (var ticket in tickets)
+                {
+                    worksheet.Cells[row, 1].Value = ticket.Id;
+                    worksheet.Cells[row, 2].Value = ticket.TicketType;
+                    worksheet.Cells[row, 3].Value = ticket.FromAddress;
+                    worksheet.Cells[row, 4].Value = ticket.ToAddress;
+                    worksheet.Cells[row, 5].Value = ticket.FromDate.ToString("yyyy-MM-dd HH:mm");
+                    worksheet.Cells[row, 6].Value = ticket.ToDate.ToString("yyyy-MM-dd HH:mm");
+                    worksheet.Cells[row, 7].Value = ticket.Quantity;
+                    worksheet.Cells[row, 8].Value = ticket.CustomerName;
+                    worksheet.Cells[row, 9].Value = ticket.CustomerPhone;
+                    worksheet.Cells[row, 10].Value = ticket.Status;
+                    row++;
+                }
+                // lam dep ex
+                using (var range = worksheet.Cells[1, 1, 1, 10])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                }
+
+
+                // Lưu file vào MemoryStream
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+                stream.Position = 0;
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Tickets.xlsx");
+            }
+        } 
+        
+    
+
+
+
 
     }
 }

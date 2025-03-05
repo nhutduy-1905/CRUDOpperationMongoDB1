@@ -85,6 +85,27 @@
   },
   {
     "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ExportTicketsToExcel",
+    "RelativePath": "api/tickets/export-location",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromAddress",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "toAddress",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
     "Method": "ImportTicketsFromExcel",
     "RelativePath": "api/tickets/import",
     "HttpMethod": "POST",

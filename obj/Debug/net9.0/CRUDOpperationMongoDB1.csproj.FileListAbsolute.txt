@@ -1,5 +1,0 @@
-D:\vlu_cntt\oop\CRUDOpperationMongoDB1\obj\Debug\net9.0\CRUDOpperationMongoDB1.GeneratedMSBuildEditorConfig.editorconfig
-D:\vlu_cntt\oop\CRUDOpperationMongoDB1\obj\Debug\net9.0\CRUDOpperationMongoDB1.AssemblyInfoInputs.cache
-D:\vlu_cntt\oop\CRUDOpperationMongoDB1\obj\Debug\net9.0\CRUDOpperationMongoDB1.AssemblyInfo.cs
-D:\vlu_cntt\oop\CRUDOpperationMongoDB1\obj\Debug\net9.0\CRUDOpperationMongoDB1.csproj.CoreCompileInputs.cache
-D:\vlu_cntt\oop\CRUDOpperationMongoDB1\obj\Debug\net9.0\CRUDOpperationMongoDB1.sourcelink.json
