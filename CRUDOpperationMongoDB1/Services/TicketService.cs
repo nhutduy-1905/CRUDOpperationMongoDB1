@@ -13,6 +13,7 @@ namespace TicketAPI.Services
     {
         private readonly IMongoCollection<Ticket> _tickets;
 
+
         // Constructor: Khởi tạo kết nối đến MongoDB
         public TicketService(IOptions<MongoDBSettings> settings)
         {
@@ -74,11 +75,11 @@ namespace TicketAPI.Services
             var result = await _tickets.DeleteOneAsync(t => t.Id == id);
             return result.DeletedCount > 0;
         }
-        // TÌM KIẾM BỘ LỌC Lọc những thằng xuất hiện trong tìm kiếm để hiện ra
-        //public async Task<List<Ticket>> Find(FilterDefinition<Ticket> filter)
-        //{
-        //    return await _tickets.Find(filter).ToListAsync();
-        //}
+        //TÌM KIẾM BỘ LỌC Lọc những thằng xuất hiện trong tìm kiếm để hiện ra
+        public async Task<List<Ticket>> Find(FilterDefinition<Ticket> filter)
+        {
+            return await _tickets.Find(filter).ToListAsync();
+        }
 
 
     }

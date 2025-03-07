@@ -210,8 +210,20 @@ namespace TicketAPI.Controllers
                         var customerPhone = worksheet.Cells[row, 9].Text.Trim();
                         var status = worksheet.Cells[row, 10].Text.Trim();
 
-                        var existingTicket = await _ticketService.GetByIdAsync(ticketId);
-                        if (existingTicket != null) // Vé đã tồn tại, cập nhật thông tin
+                        // Kiểm tra ID có rỗng hoặc đã bị xóa trong Excel không
+                        Ticket existingTicket = null;
+                        if (!string.IsNullOrWhiteSpace(ticketId))
+                        {
+                            existingTicket = await _ticketService.GetByIdAsync(ticketId);
+                        }
+
+                        // Nếu không tìm thấy ID (do bị xóa), tạo ID mới
+                        if (existingTicket == null)
+                        {
+                            ticketId = ObjectId.GenerateNewId().ToString();
+                        }
+                        //var existingTicket = await _ticketService.GetByIdAsync(ticketId);
+                        if (existingTicket != null) // Vé đã tồn tại, cập nhật thông tin // nếu id == null --> thêm id vào file ex
                         {
                             existingTicket.TicketType = ticketType;
                             existingTicket.FromAddress = fromAddress;
@@ -273,7 +285,7 @@ namespace TicketAPI.Controllers
             var filter = Builders<Ticket>.Filter.Empty; // Mặc định lấy tất cả dữ liệu
             if (!string.IsNullOrEmpty(fromAddress) && !string.IsNullOrEmpty(toAddress))
             {
-                filter = Builders<Ticket>.Filter.And(
+                    filter = Builders<Ticket>.Filter.And(
                     Builders<Ticket>.Filter.Eq(t => t.FromAddress, fromAddress),
                     Builders<Ticket>.Filter.Eq(t => t.ToAddress, toAddress)
                 );
@@ -288,8 +300,8 @@ namespace TicketAPI.Controllers
                 filter = Builders<Ticket>.Filter.Eq(t => t.ToAddress, toAddress);
             }
 
-            var tickets = await _ticketService.Find(f => f.ToAddress == "Ca Mau" && f.FromAddress == "TPHCM"); // Lấy danh sách vé theo điều kiện lọc
-             // var tickets = await _ticketService.Find(filter);
+            //var tickets = await _ticketService.Find(f => f.ToAddress == "Ca Mau" && f.FromAddress == "TPHCM"); // Lấy danh sách vé theo điều kiện lọc
+            var tickets = await _ticketService.Find(filter);
             if (!tickets.Any())  return BadRequest("Không có dữ liệu để xuất.");
             using (var package = new ExcelPackage())
             {
@@ -339,9 +351,175 @@ namespace TicketAPI.Controllers
 
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Tickets.xlsx");
             }
-        } 
-        
-    
+        }
+        [HttpPost("export-by-filter")]
+        public async Task<IActionResult> ExportTicketsToExcel([FromBody] FilterTicketDTO ticketDto)
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            // Khởi tạo bộ lọc
+            var filter = Builders<Ticket>.Filter.Empty; // Mặc định lấy tất cả dữ liệu
+
+            var filters = new List<FilterDefinition<Ticket>>();
+
+            if (!string.IsNullOrEmpty(ticketDto.TicketType))
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.TicketType, ticketDto.TicketType));
+            }
+            if (!string.IsNullOrEmpty(ticketDto.FromAddress))
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.FromAddress, ticketDto.FromAddress));
+            }
+            if (!string.IsNullOrEmpty(ticketDto.ToAddress))
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.ToAddress, ticketDto.ToAddress));
+            }
+            if (ticketDto.FromDate != null)
+            {
+                filters.Add(Builders<Ticket>.Filter.Gte(t => t.FromDate, ticketDto.FromDate));
+            }
+            if (ticketDto.ToDate != null)
+            {
+                filters.Add(Builders<Ticket>.Filter.Lte(t => t.ToDate, ticketDto.ToDate));
+            }
+            if (ticketDto.Quantity != null)
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.Quantity, ticketDto.Quantity));
+            }
+            if (!string.IsNullOrEmpty(ticketDto.CustomerName))
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.CustomerName, ticketDto.CustomerName));
+            }
+            if (!string.IsNullOrEmpty(ticketDto.CustomerPhone))
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.CustomerPhone, ticketDto.CustomerPhone));
+            }
+            if (!string.IsNullOrEmpty(ticketDto.Status))
+            {
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.Status, ticketDto.Status));
+            }
+
+            if (filters.Any())
+            {
+                filter = Builders<Ticket>.Filter.And(filters);
+            }
+
+            var tickets = await _ticketService.Find(filter);
+            if (!tickets.Any()) return BadRequest("Không có dữ liệu để xuất.");
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Tickets");
+
+                // Tiêu đề cột
+                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 2].Value = "Loại Vé";
+                worksheet.Cells[1, 3].Value = "Điểm Đi";
+                worksheet.Cells[1, 4].Value = "Điểm Đến";
+                worksheet.Cells[1, 5].Value = "Ngày Đi";
+                worksheet.Cells[1, 6].Value = "Ngày Đến";
+                worksheet.Cells[1, 7].Value = "Số Lượng";
+                worksheet.Cells[1, 8].Value = "Tên Khách Hàng";
+                worksheet.Cells[1, 9].Value = "SĐT Khách Hàng";
+                worksheet.Cells[1, 10].Value = "Trạng Thái";
+
+                // Ghi dữ liệu vào file Excel
+                int row = 2;
+                foreach (var ticket in tickets)
+                {
+                    worksheet.Cells[row, 1].Value = ticket.Id;
+                    worksheet.Cells[row, 2].Value = ticket.TicketType;
+                    worksheet.Cells[row, 3].Value = ticket.FromAddress;
+                    worksheet.Cells[row, 4].Value = ticket.ToAddress;
+                    worksheet.Cells[row, 5].Value = ticket.FromDate.ToString("yyyy-MM-dd HH:mm");
+                    worksheet.Cells[row, 6].Value = ticket.ToDate.ToString("yyyy-MM-dd HH:mm");
+                    worksheet.Cells[row, 7].Value = ticket.Quantity;
+                    worksheet.Cells[row, 8].Value = ticket.CustomerName;
+                    worksheet.Cells[row, 9].Value = ticket.CustomerPhone;
+                    worksheet.Cells[row, 10].Value = ticket.Status;
+                    row++;
+                }
+
+                // Định dạng header
+                using (var range = worksheet.Cells[1, 1, 1, 10])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                }
+
+                // Lưu file vào MemoryStream
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+                stream.Position = 0;
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Tickets.xlsx");
+            }
+        }
+        [HttpGet("export-sheet")]
+        public async Task<IActionResult> ExportTicketsToExcel([FromQuery] int page = 1, [FromQuery] int pageSize = 25)
+        {
+            // Giới hạn các giá trị pageSize hợp lệ: 25, 50, 75, 100
+            //int[] allowedPageSizes = { 25, 50, 75, 100 };
+            //if (!allowedPageSizes.Contains(pageSize)) // content kiểm tra đúng nếu chứa value ngược lại trả false
+            //{
+            //    return BadRequest("PageSize không hợp lệ. Chọn 25, 50, 75 hoặc 100.");
+            //}
+            if (!(page > 0 && pageSize >0 ))
+            {
+                return BadRequest("Không hợp lê!");
+            }
+
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            // Lấy dữ liệu từ MongoDB
+            var tickets = await _ticketService.Find(_ => true);
+
+            // Phân trang
+            var paginatedTickets = tickets.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Tickets");
+
+                // Tiêu đề cột
+                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 2].Value = "Loại Vé";
+                worksheet.Cells[1, 3].Value = "Điểm Đi";
+                worksheet.Cells[1, 4].Value = "Điểm Đến";
+                worksheet.Cells[1, 5].Value = "Ngày Đi";
+                worksheet.Cells[1, 6].Value = "Ngày Đến";
+                worksheet.Cells[1, 7].Value = "Số Lượng";
+                worksheet.Cells[1, 8].Value = "Tên Khách Hàng";
+                worksheet.Cells[1, 9].Value = "SĐT Khách Hàng";
+                worksheet.Cells[1, 10].Value = "Trạng Thái";
+
+                // Ghi dữ liệu vào file Excel
+                int row = 2;
+                foreach (var ticket in paginatedTickets)
+                {
+                    worksheet.Cells[row, 1].Value = ticket.Id;
+                    worksheet.Cells[row, 2].Value = ticket.TicketType;
+                    worksheet.Cells[row, 3].Value = ticket.FromAddress;
+                    worksheet.Cells[row, 4].Value = ticket.ToAddress;
+                    worksheet.Cells[row, 5].Value = ticket.FromDate.ToString("yyyy-MM-dd HH:mm");
+                    worksheet.Cells[row, 6].Value = ticket.ToDate.ToString("yyyy-MM-dd HH:mm");
+                    worksheet.Cells[row, 7].Value = ticket.Quantity;
+                    worksheet.Cells[row, 8].Value = ticket.CustomerName;
+                    worksheet.Cells[row, 9].Value = ticket.CustomerPhone;
+                    worksheet.Cells[row, 10].Value = ticket.Status;
+                    row++;
+                }
+
+                // Lưu file Excel vào MemoryStream
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+                stream.Position = 0; // đọc dữ liệu từ đầu 
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Tickets_Page{page}.xlsx");
+            }
+        }
+
+
 
 
 

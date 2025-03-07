@@ -86,6 +86,22 @@
   {
     "ContainingType": "TicketAPI.Controllers.TicketController",
     "Method": "ExportTicketsToExcel",
+    "RelativePath": "api/tickets/export-by-filter",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketDto",
+        "Type": "TicketAPI.DTOs.FilterTicketDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ExportTicketsToExcel",
     "RelativePath": "api/tickets/export-location",
     "HttpMethod": "GET",
     "IsController": true,
@@ -99,6 +115,27 @@
       {
         "Name": "toAddress",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ExportTicketsToExcel",
+    "RelativePath": "api/tickets/export-sheet",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
