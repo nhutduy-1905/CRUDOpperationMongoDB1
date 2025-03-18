@@ -10,6 +10,9 @@ using System.ComponentModel;
 using OfficeOpenXml;
 using MongoDB.Bson;
 using OfficeOpenXml.Style;
+using System.Linq.Expressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net.Sockets;
 
 namespace TicketAPI.Controllers
 {
@@ -18,6 +21,7 @@ namespace TicketAPI.Controllers
     public class TicketController : ControllerBase
     {
         private readonly TicketService _ticketService;
+        private object _tickets;
 
         // Constructor: Inject TicketService để sử dụng trong controller
         public TicketController(TicketService ticketService)
@@ -83,9 +87,6 @@ namespace TicketAPI.Controllers
             }
         }
 
-
-
-
         // Cập nhật thông tin vé
         [HttpPost("update/{id}")]
         public async Task<IActionResult> UpdateTicket(string id, [FromBody] CreateTicketDTO toDTO)
@@ -100,7 +101,7 @@ namespace TicketAPI.Controllers
                 return BadRequest("ID không khớp!");
 
             // 3. Cập nhật thông tin vé    
-            existingTicket.TicketType = toDTO.TicketType;
+            existingTicket.TicketType = Enum.Parse<TicketType>(toDTO.TicketType);
             existingTicket.FromAddress = toDTO.FromAddress;
             existingTicket.ToAddress = toDTO.ToAddress;
             existingTicket.FromDate = toDTO.FromDate;
@@ -181,9 +182,8 @@ namespace TicketAPI.Controllers
             {
                 return BadRequest("Vui lòng chọn file Excel.");
             }
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
-            var tickets = new List<Ticket>();
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
             using (var stream = new MemoryStream())
             {
@@ -195,6 +195,7 @@ namespace TicketAPI.Controllers
                     {
                         return BadRequest("File Excel không có dữ liệu hoặc sai định dạng!");
                     }
+
                     int rowCount = worksheet.Dimension.Rows; // Đếm số dòng
 
                     for (int row = 2; row <= rowCount; row++) // Bỏ qua dòng tiêu đề
@@ -203,29 +204,70 @@ namespace TicketAPI.Controllers
                         var ticketType = worksheet.Cells[row, 2].Text.Trim();
                         var fromAddress = worksheet.Cells[row, 3].Text.Trim();
                         var toAddress = worksheet.Cells[row, 4].Text.Trim();
-                        var fromDate = DateTime.Parse(worksheet.Cells[row, 5].Text.Trim());
-                        var toDate = DateTime.Parse(worksheet.Cells[row, 6].Text.Trim());
-                        var quantity = int.Parse(worksheet.Cells[row, 7].Text.Trim());
+                        var fromDateText = worksheet.Cells[row, 5].Text.Trim();
+                        var toDateText = worksheet.Cells[row, 6].Text.Trim();
+                        var quantityText = worksheet.Cells[row, 7].Text.Trim();
                         var customerName = worksheet.Cells[row, 8].Text.Trim();
                         var customerPhone = worksheet.Cells[row, 9].Text.Trim();
                         var status = worksheet.Cells[row, 10].Text.Trim();
 
-                        // Kiểm tra ID có rỗng hoặc đã bị xóa trong Excel không
+                        // 🔹 Chuyển đổi TicketType (string -> Enum)
+                        TicketType? ticketTypeEnum = null;
+                        if (!string.IsNullOrWhiteSpace(ticketType) &&
+                            Enum.TryParse<TicketType>(ticketType, true, out var parsedTicketType))
+                        {
+                            ticketTypeEnum = parsedTicketType;
+                        }
+                        else
+                        {
+                            return BadRequest($"Lỗi tại dòng {row}: TicketType không hợp lệ ({ticketType}).");
+                        }
+
+
+
+                        TicketStatus? ticketStatus = null;
+                        if (!string.IsNullOrWhiteSpace(status) &&
+                            Enum.TryParse<TicketStatus>(status , true, out var parsedStatus))
+                        {
+                            ticketStatus = parsedStatus;
+                        }
+                        else
+                        {
+                            return BadRequest($"Lỗi tại dòng {row}: TicketStatus không hợp lệ ({status}).");
+                        }
+
+                        // 🔹 Kiểm tra và chuyển đổi các giá trị số
+                        if (!DateTime.TryParse(fromDateText, out DateTime fromDate))
+                        {
+                            return BadRequest($"Lỗi tại dòng {row}: FromDate không hợp lệ ({fromDateText}).");
+                        }
+
+                        if (!DateTime.TryParse(toDateText, out DateTime toDate))
+                        {
+                            return BadRequest($"Lỗi tại dòng {row}: ToDate không hợp lệ ({toDateText}).");
+                        }
+
+                        if (!int.TryParse(quantityText, out int quantity))
+                        {
+                            return BadRequest($"Lỗi tại dòng {row}: Quantity không hợp lệ ({quantityText}).");
+                        }
+
+                        // 🔹 Kiểm tra ID có rỗng không
                         Ticket existingTicket = null;
                         if (!string.IsNullOrWhiteSpace(ticketId))
                         {
                             existingTicket = await _ticketService.GetByIdAsync(ticketId);
                         }
 
-                        // Nếu không tìm thấy ID (do bị xóa), tạo ID mới
+                        // Nếu không tìm thấy ID, tạo ID mới
                         if (existingTicket == null)
                         {
                             ticketId = ObjectId.GenerateNewId().ToString();
                         }
-                        //var existingTicket = await _ticketService.GetByIdAsync(ticketId);
-                        if (existingTicket != null) // Vé đã tồn tại, cập nhật thông tin // nếu id == null --> thêm id vào file ex
+
+                        if (existingTicket != null) // Vé đã tồn tại, cập nhật thông tin
                         {
-                            existingTicket.TicketType = ticketType;
+                            existingTicket.TicketType = ticketTypeEnum.Value; // 🔹 Sửa lỗi TicketTy 
                             existingTicket.FromAddress = fromAddress;
                             existingTicket.ToAddress = toAddress;
                             existingTicket.FromDate = fromDate;
@@ -233,7 +275,7 @@ namespace TicketAPI.Controllers
                             existingTicket.Quantity = quantity;
                             existingTicket.CustomerName = customerName;
                             existingTicket.CustomerPhone = customerPhone;
-                            existingTicket.Status = status;
+                            existingTicket.Status = ticketStatus.Value;
 
                             await _ticketService.UpdateAsync(ticketId, existingTicket);
                         }
@@ -242,7 +284,7 @@ namespace TicketAPI.Controllers
                             var newTicket = new Ticket
                             {
                                 Id = ticketId,
-                                TicketType = ticketType,
+                                TicketType = ticketTypeEnum.Value, // 🔹 Sửa lỗi TicketType
                                 FromAddress = fromAddress,
                                 ToAddress = toAddress,
                                 FromDate = fromDate,
@@ -250,7 +292,7 @@ namespace TicketAPI.Controllers
                                 Quantity = quantity,
                                 CustomerName = customerName,
                                 CustomerPhone = customerPhone,
-                                Status = status
+                                Status = ticketStatus.Value
                             };
 
                             await _ticketService.CreateAsync(newTicket);
@@ -260,9 +302,7 @@ namespace TicketAPI.Controllers
             }
             return Ok(new { message = "Import danh sách vé thành công!" });
         }
-                   
 
-       
         [HttpDelete("deleted/{id}")]
         public async Task<IActionResult> DeleteTicket(string id)
         {
@@ -361,10 +401,12 @@ namespace TicketAPI.Controllers
             var filter = Builders<Ticket>.Filter.Empty; // Mặc định lấy tất cả dữ liệu
 
             var filters = new List<FilterDefinition<Ticket>>();
+           
+
 
             if (!string.IsNullOrEmpty(ticketDto.TicketType))
             {
-                filters.Add(Builders<Ticket>.Filter.Eq(t => t.TicketType, ticketDto.TicketType));
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.TicketType.ToString(),  ticketDto.TicketType));
             }
             if (!string.IsNullOrEmpty(ticketDto.FromAddress))
             {
@@ -396,7 +438,7 @@ namespace TicketAPI.Controllers
             }
             if (!string.IsNullOrEmpty(ticketDto.Status))
             {
-                filters.Add(Builders<Ticket>.Filter.Eq(t => t.Status, ticketDto.Status));
+                filters.Add(Builders<Ticket>.Filter.Eq(t => t.Status, (TicketStatus)Enum.Parse(typeof(TicketStatus), ticketDto.Status)));
             }
 
             if (filters.Any())
@@ -518,10 +560,52 @@ namespace TicketAPI.Controllers
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Tickets_Page{page}.xlsx");
             }
         }
+        // 9 Require nhập liệu page và page size  sẽ hiển thị dưới dạng json nếu người dùng nhập liệu sai thì sẽ có xử lý ngoại lệ 
+        [HttpGet("GetPageAndPageSize")]
+        public async Task<IActionResult> GetAllTickets([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        {
+            // 🔹 Kiểm tra giá trị hợp lệ
+            if (page <= 0 || pageSize <= 0)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Page and pageSize must be greater than 0"
+                });
+            }
 
+            try
+            {
+                var tickets = await _ticketService.GetAllTicketsAsync(page, pageSize);
+                return Ok(new { success = true, data = tickets });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "An error occurred while retrieving tickets",
+                    error = ex.Message
+                });
+            }
+        }
+        // 10
+        [HttpPost("import-update-status")]
+        public async Task<IActionResult> ImportUpdateStatus([FromBody] List<UpdateTicketStatusDTO> updates)
+        {
+            if (updates == null || updates.Count == 0)
+                return BadRequest(new { success = false, message = "Danh sách cập nhật trống!" });
 
-
-
+            try
+            {
+                var updatedTickets = await _ticketService.UpdateTicketStatusAsync(updates);
+                return Ok(new { success = true, message = "Cập nhật trạng thái thành công!", data = updatedTickets });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Lỗi: {ex.Message}" });
+            }
+        }
 
 
     }

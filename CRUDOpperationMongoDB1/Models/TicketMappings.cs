@@ -1,6 +1,6 @@
-﻿using TicketAPI.Models;
+﻿using System.Net.Sockets;
 using TicketAPI.DTOs;
-using System.Net.Sockets;
+using TicketAPI.Models;
 
 namespace TicketAPI.Mappings
 {
@@ -8,12 +8,9 @@ namespace TicketAPI.Mappings
     {
         public static Ticket ToEntity(CreateTicketDTO dto)
         {
-            // kiem tra co null khong 
-            if (dto == null) return null;
-
             return new Ticket
             {
-                TicketType = dto.TicketType,
+                TicketType = (TicketType)Enum.Parse(typeof(TicketType), dto.TicketType), // Chuyển enum thành string
                 FromAddress = dto.FromAddress,
                 ToAddress = dto.ToAddress,
                 FromDate = dto.FromDate,
@@ -21,24 +18,23 @@ namespace TicketAPI.Mappings
                 Quantity = dto.Quantity,
                 CustomerName = dto.CustomerName,
                 CustomerPhone = dto.CustomerPhone,
-                Status = "Hoạt động" // Mặc định là hoạt động khi tạo vé mới
+                Status = (TicketStatus)Enum.Parse(typeof(TicketStatus), dto.Status)
             };
         }
 
-        public static CreateTicketDTO ToDTO(Ticket entity)
+        public static CreateTicketDTO ToDTO(Ticket ticket)
         {
-    
             return new CreateTicketDTO
             {
-                TicketType = entity.TicketType,
-                FromAddress = entity.FromAddress,
-                ToAddress = entity.ToAddress,
-                FromDate = entity.FromDate,
-                ToDate = entity.ToDate,
-                Quantity = entity.Quantity,
-                CustomerName = entity.CustomerName,
-                CustomerPhone = entity.CustomerPhone,
-                Status = entity.Status
+                TicketType = ticket.TicketType.ToString(), 
+                FromAddress = ticket.FromAddress,
+                ToAddress = ticket.ToAddress,
+                FromDate = ticket.FromDate,
+                ToDate = ticket.ToDate,
+                Quantity = ticket.Quantity,
+                CustomerName = ticket.CustomerName,
+                CustomerPhone = ticket.CustomerPhone,
+                Status = ticket.Status.ToString()
             };
         }
     }

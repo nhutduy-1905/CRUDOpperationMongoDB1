@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 using TicketAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDBSettings")
 );
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());  // 👈 Thêm dòng này
+    });
+
 // Đăng ký TicketService
 builder.Services.AddSingleton<TicketService>();
 

@@ -66,3 +66,4 @@ D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\bin\Debug\net8.0\r
 D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Text.Encoding.CodePages.dll
 D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\bin\Debug\net8.0\Newtonsoft.Json.dll

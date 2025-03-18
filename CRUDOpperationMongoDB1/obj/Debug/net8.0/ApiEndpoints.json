@@ -143,6 +143,27 @@
   },
   {
     "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "GetAllTickets",
+    "RelativePath": "api/tickets/GetPageAndPageSize",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
     "Method": "ImportTicketsFromExcel",
     "RelativePath": "api/tickets/import",
     "HttpMethod": "POST",
@@ -153,6 +174,22 @@
         "Name": "file",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ImportUpdateStatus",
+    "RelativePath": "api/tickets/import-update-status",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updates",
+        "Type": "System.Collections.Generic.List\u00601[[TicketAPI.DTOs.UpdateTicketStatusDTO, CRUDOpperationMongoDB1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
