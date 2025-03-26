@@ -47,8 +47,21 @@ namespace TicketAPI.Services
                await _tickets.Find(t => t.Id == id).FirstOrDefaultAsync();
 
         // ✅ Tạo ticket mới
-        public async Task CreateAsync(Ticket ticket) =>
-            await _tickets.InsertOneAsync(ticket);
+        public async Task<Ticket> CreateAsync(Ticket ticket)
+        {
+            try
+            {
+                await _tickets.InsertOneAsync(ticket);
+                return ticket;
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi để debug
+                Console.WriteLine($"Lỗi khi gọi CreateAsync: {ex.GetType().Name} - {ex.Message}\nStackTrace: {ex.StackTrace}");
+                throw; // Ném lại ngoại lệ để CreateTicket xử lý
+            }
+        }
+           
 
         // ✅ Cập nhật ticket
         public async Task UpdateAsync(string id, Ticket ticket)
@@ -139,10 +152,18 @@ namespace TicketAPI.Services
                 FromDate = t.FromDate,
                 ToDate = t.ToDate,
                 Quantity = t.Quantity,
-                CustomerName = t.CustomerName,
-                CustomerPhone = t.CustomerPhone,
+                //CustomerName = t.CustomerName,
+                //CustomerPhone = t.CustomerPhone,
                 Status = ((TicketStatus)(int)t.Status).ToString() // ✅ Chuyển đổi ENUM thành chuỗi
             }).ToList();
+        }
+        // ✅ Lấy danh sách vé theo ID khách hàng (phân trang)
+        public async Task<List<Ticket>> GetTicketsByCustomerIdAsync(string customerId, int page, int pageSize)
+        {
+            return await _tickets.Find(t => t.CustomerId == customerId)
+                .Skip((page - 1) * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
         }
     }
 }

@@ -24,7 +24,9 @@ namespace TicketAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        [BsonRepresentation(BsonType.String)]  // ✅ Lưu Enum dưới dạng string thay vì số
+        public string CustomerId { get; set; }
+
+        [BsonRepresentation(BsonType.String)]
         public TicketType TicketType { get; set; }
 
         public string FromAddress { get; set; }

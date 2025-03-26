@@ -1,8 +1,11 @@
 ﻿using CRUDOpperationMongoDB1.Models;
+using CRUDOpperationMongoDB1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using System.Text.Json.Serialization;
+using TicketAPI.Service;
 using TicketAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,13 +20,16 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());  // 👈 Thêm dòng này
     });
+builder.Services.AddSwaggerGen();
 
 // Đăng ký TicketService
 builder.Services.AddSingleton<TicketService>();
-
+builder.Services.AddSingleton<CustomerService>();
+builder.Services.AddSingleton<PostService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 

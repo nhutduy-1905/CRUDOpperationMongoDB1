@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CRUDOpperationMongoDB1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0bc34e1f48871ce65df0912ab00e4dbbbc84156a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e54e2b1bf1c6b1117fa8ca3d5fcf1c43cc031f6b")]
 [assembly: System.Reflection.AssemblyProductAttribute("CRUDOpperationMongoDB1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CRUDOpperationMongoDB1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

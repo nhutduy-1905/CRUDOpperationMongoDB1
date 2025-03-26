@@ -3,16 +3,12 @@ using TicketAPI.Models;
 using TicketAPI.Services;
 using TicketAPI.DTOs;
 using TicketAPI.Mappings;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MongoDB.Driver;
-using System.ComponentModel;
 using OfficeOpenXml;
 using MongoDB.Bson;
 using OfficeOpenXml.Style;
-using System.Linq.Expressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net.Sockets;
+using TicketAPI.Service;
+using System;
 
 namespace TicketAPI.Controllers
 {
@@ -21,29 +17,56 @@ namespace TicketAPI.Controllers
     public class TicketController : ControllerBase
     {
         private readonly TicketService _ticketService;
-        private object _tickets;
-
+        private readonly CustomerService _customerService;
         // Constructor: Inject TicketService để sử dụng trong controller
-        public TicketController(TicketService ticketService)
+        public TicketController(TicketService ticketService, CustomerService customerService)
         {
             _ticketService = ticketService;
+            _customerService = customerService;
         }
 
         // Tạo mới một ticket
         [HttpPost("create")]
         public async Task<IActionResult> CreateTicket([FromBody] CreateTicketDTO ticketDto)
         {
-            // Kiểm tra dữ liệu đầu vào có hợp lệ không
-            if (ticketDto == null || string.IsNullOrEmpty(ticketDto.CustomerPhone))
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new { error = "Invalid ticket data" });
+                return BadRequest(ModelState);
             }
 
-            var ticket = TicketMapper.ToEntity(ticketDto); // Chuyển DTO thành Entity
-            await _ticketService.CreateAsync(ticket); // Gọi service để lưu vào DB
+            if (ticketDto == null || string.IsNullOrEmpty(ticketDto.CustomerId))
+            {
+                return BadRequest(new { error = "Invalid ticket data: CustomerId is required." });
+            }
+            try
+            {
+               
+                // Kiểm tra CustomerId có tồn tại không
+                Customer? customer = await _customerService.GetCustomerByIdAsync(ticketDto.CustomerId);
+                if (customer == null)
+                {
+                    return BadRequest(new { error = "CustomerId không tồn tại trong hệ thống." });
+                }
+                // Tạo entity Ticket từ DTO, bổ sung CustomerName và CustomerPhone từ customer
+                var tickets = TicketMapper.ToEntity(ticketDto);
+                tickets.CustomerName = customer.CustomerName;
+                tickets.CustomerPhone = customer.CustomerPhone;
+                // Lưu ticket vào database
+                var ticketResult = await _ticketService.CreateAsync(tickets);
+                // trả về kq vừa tạo
+                return Ok(new { success = true, message = "Tạo vé thành công!", data = ticketResult });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi tạo vé: {ex.GetType().Name} - {ex.Message}\nStackTrace: {ex.StackTrace}");
+                return StatusCode(500, new { error = "Lỗi hệ thống. Vui lòng thử lại sau!" });
+            }
+        
+            //var ticket = TicketMapper.ToEntity(ticketDto); // Chuyển DTO thành Entity
+            //await _ticketService.CreateAsync(ticket); // Gọi service để lưu vào DB
 
-            // Trả về kết quả với thông tin của ticket vừa tạo
-            return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, TicketMapper.ToDTO(ticket));
+            //// Trả về kết quả với thông tin của ticket vừa tạo
+            //return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, TicketMapper.ToDTO(ticket));
         }
 
         // Lấy thông tin một ticket theo ID
@@ -65,7 +88,7 @@ namespace TicketAPI.Controllers
                 var tickets = await _ticketService.GetAsync();
                 if (tickets == null || tickets.Count == 0)
                     return NotFound(new { message = "Không có vé nào!" });
-
+                
                 return Ok(tickets);
             }
             catch (Exception ex)
@@ -103,12 +126,12 @@ namespace TicketAPI.Controllers
             // 3. Cập nhật thông tin vé    
             existingTicket.TicketType = Enum.Parse<TicketType>(toDTO.TicketType);
             existingTicket.FromAddress = toDTO.FromAddress;
-            existingTicket.ToAddress = toDTO.ToAddress;
+            existingTicket.ToAddress = toDTO.ToAddress; 
             existingTicket.FromDate = toDTO.FromDate;
             existingTicket.ToDate = toDTO.ToDate;
             existingTicket.Quantity = toDTO.Quantity;
-            existingTicket.CustomerName = toDTO.CustomerName;
-            existingTicket.CustomerPhone = toDTO.CustomerPhone;
+            //existingTicket.CustomerName = toDTO.CustomerName;
+            //existingTicket.CustomerPhone = toDTO.CustomerPhone;
 
             // 4. Lưu thay đổi vào DB
             await _ticketService.UpdateAsync(id, existingTicket);
@@ -149,6 +172,7 @@ namespace TicketAPI.Controllers
                 worksheet.Cells[1, 8].Value = "Tên Khách Hàng";
                 worksheet.Cells[1, 9].Value = "SĐT Khách Hàng";
                 worksheet.Cells[1, 10].Value = "Trạng Thái";
+
 
                 // Ghi dữ liệu từ MongoDB vào file Excel
                 int row = 2;
@@ -595,7 +619,21 @@ namespace TicketAPI.Controllers
         {
             if (updates == null || updates.Count == 0)
                 return BadRequest(new { success = false, message = "Danh sách cập nhật trống!" });
-
+            // kiểm tra ticketType có giá trị hợp lệ không
+            var invalidTickets = updates.Where(u => !Enum.IsDefined(typeof(TicketType), u.Type)).ToList();
+            // Kiểm tra status có hợp lệ
+            var invalidStatuses = updates.Where(u => !Enum.IsDefined(typeof(TicketStatus), u.Status)).ToList();
+            if (invalidTickets.Any() || invalidStatuses.Any())
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Danh sách cập nhật chứa dữ liệu không hợp lệ!",
+                    invalidTickets,
+                    invalidStatuses
+                });
+            }
+            
             try
             {
                 var updatedTickets = await _ticketService.UpdateTicketStatusAsync(updates);
