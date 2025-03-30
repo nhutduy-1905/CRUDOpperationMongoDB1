@@ -5,7 +5,6 @@ using MongoDB.Driver;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-
 namespace CRUDOpperationMongoDB1.Services
 {
     public class PostService : IPostService
@@ -18,10 +17,7 @@ namespace CRUDOpperationMongoDB1.Services
             _posts = database.GetCollection<Post>("Post");
             var indexKeys = Builders<Post>.IndexKeys.Ascending(p => p.Slug);
             _posts.Indexes.CreateOneAsync(new CreateIndexModel<Post>(indexKeys));
-            //
         }
-  
-        //----
         public async Task<Post> CreatePostAsync(CreatePostDTO dto)
         {
 
@@ -37,7 +33,6 @@ namespace CRUDOpperationMongoDB1.Services
             {
                 return null;
             }
-
             var post = await _posts.Find(p => p.Slug == slug)
                                   .FirstOrDefaultAsync();
             return post;
@@ -46,19 +41,14 @@ namespace CRUDOpperationMongoDB1.Services
         {
             if (string.IsNullOrEmpty(title))
                 return string.Empty;
-
-            // 
             string slug = RemoveDiacritics(title).ToLowerInvariant();
             slug = Regex.Replace(slug, @"[^a-z0-9\s-]", "");
 
             slug = Regex.Replace(slug, @"[\s-]+", "-");
 
             slug = slug.Trim('-');
-
             return slug;
         }
-
-
         // Hàm đảm bảo slug là duy nhất
         private async Task<string> EnsureUniqueSlug(string slug)
         {
@@ -104,8 +94,6 @@ namespace CRUDOpperationMongoDB1.Services
 
             return await _posts.Find(p => p.Id == existingPost.Id).FirstOrDefaultAsync();
         }
-
-
         public async Task<bool> DeletePostAsync(string slug)
         {
             var result = await _posts.DeleteOneAsync(p => p.Slug == slug);
@@ -124,7 +112,16 @@ namespace CRUDOpperationMongoDB1.Services
 
             return sb.ToString();
         }
-        //---
+
+        public Task<List<Post>> ExportPost()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Post>> ExportByFilter(CreatePostDTO postDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-// Interface tương ứng
+
