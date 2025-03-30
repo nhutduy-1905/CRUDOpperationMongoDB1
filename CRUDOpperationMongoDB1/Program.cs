@@ -26,6 +26,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<TicketService>();
 builder.Services.AddSingleton<CustomerService>();
 builder.Services.AddSingleton<PostService>();
+builder.Services.AddScoped<IPostService, PostService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

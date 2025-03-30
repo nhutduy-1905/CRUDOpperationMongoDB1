@@ -8,8 +8,8 @@ namespace CRUDOpperationMongoDB1.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly PostService _postService;
-        public PostController(PostService postService)
+        private readonly IPostService _postService;
+        public PostController(IPostService postService)
         {
             _postService = postService;
         }
@@ -17,12 +17,29 @@ namespace CRUDOpperationMongoDB1.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromBody] CreatePostDTO postDto)
         {
-            if (postDto == null)
+            try
             {
-                return BadRequest("Dữ liệu không hợp lệ.");
+                // Kiểm tra dữ liệu đầu vào
+                if (postDto == null || string.IsNullOrWhiteSpace(postDto.Title))
+                {
+                    return BadRequest("Dữ liệu không hợp lệ. Tiêu đề không được để trống.");
+                }
+
+                // Gọi service để tạo post
+                var post = await _postService.CreatePostAsync(postDto);
+
+                // Trả về response với location của post mới tạo
+                return CreatedAtAction(
+                    nameof(GetPostSlug),
+                    new { slug = post.Slug },
+                    post
+                );
             }
-            var post = await _postService.CreatePostAsync(postDto);
-            return CreatedAtAction(nameof(GetPostSlug), new{slug = post.Slug },post);
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                return StatusCode(500, $"Lỗi khi tạo bài viết: {ex.Message}");
+            }
         }
         // update post
         [HttpPut("{id}")]
