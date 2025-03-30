@@ -1,18 +1,13 @@
-﻿using MongoDB.Driver;
-using TicketAPI.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+﻿using System.Linq.Expressions;
 using CRUDOpperationMongoDB1.Models;
-using System.Linq.Expressions;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using TicketAPI.DTOs;
-
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Sockets;
+using TicketAPI.Models;
 
 namespace TicketAPI.Services
 {
-    public class TicketService
+    public class TicketService : ITicketService
     {
         private readonly IMongoCollection<Ticket> _tickets;
 
@@ -42,12 +37,18 @@ namespace TicketAPI.Services
             return tickets;
         }
 
+         // ✅ Tìm vé theo bộ lọc
+        public async Task<List<Ticket>> Find(Expression<Func<Ticket, bool>> filter)
+        {
+            return await _tickets.Find(filter).ToListAsync();
+        }
+
         // ✅ Lấy ticket theo ID
         public async Task<Ticket> GetByIdAsync(string id) =>
                await _tickets.Find(t => t.Id == id).FirstOrDefaultAsync();
 
         // ✅ Tạo ticket mới
-        public async Task<Ticket> CreateAsync(Ticket ticket)
+        public async Task<Ticket> InsertOneAsync(Ticket ticket)
         {
             try
             {
@@ -82,44 +83,7 @@ namespace TicketAPI.Services
             await _tickets.UpdateOneAsync(t => t.Id == id, update);
         }
 
-        // ✅ Tìm vé theo bộ lọc
-        public async Task<List<Ticket>> Find(Expression<Func<Ticket, bool>> filter)
-        {
-            return await _tickets.Find(filter).ToListAsync();
-        }
-
-        // ✅ Thêm nhiều vé
-        public async Task InsertManyAsync(List<Ticket> tickets)
-        {
-            if (tickets == null || tickets.Count == 0)
-                return;
-
-            await _tickets.InsertManyAsync(tickets);
-        }
-
-        // ✅ Xóa vé theo ID
-        public async Task<bool> DeleteAsync(string id)
-        {
-            var result = await _tickets.DeleteOneAsync(t => t.Id == id);
-            return result.DeletedCount > 0;
-        }
-
-        // ✅ Lọc vé hỗ trợ tìm kiếm
-        public async Task<List<Ticket>> Find(FilterDefinition<Ticket> filter)
-        {
-            return await _tickets.Find(filter).ToListAsync();
-        }
-
-        // ✅ Lấy tất cả vé (Hỗ trợ phân trang)
-        public async Task<List<Ticket>> GetAllTicketsAsync(int page = 1, int pageSize = 10)
-        {
-            return await _tickets.Find(t => true)
-                                 .Skip((page - 1) * pageSize)
-                                 .Limit(pageSize)
-                                 .ToListAsync();
-        }
-
-        public async Task<List<CreateTicketDTO>> UpdateTicketStatusAsync(List<UpdateTicketStatusDTO> updates)
+          public async Task<List<CreateTicketDTO>> UpdateTicketStatusAsync(List<UpdateTicketStatusDTO> updates)
         {
             if (updates == null || !updates.Any())
                 throw new ArgumentException("🚨 Danh sách cập nhật trống!");
@@ -157,6 +121,41 @@ namespace TicketAPI.Services
                 Status = ((TicketStatus)(int)t.Status).ToString() // ✅ Chuyển đổi ENUM thành chuỗi
             }).ToList();
         }
+
+       
+
+        // ✅ Thêm nhiều vé
+        public async Task InsertManyAsync(List<Ticket> tickets)
+        {
+            if (tickets == null || tickets.Count == 0)
+                return;
+
+            await _tickets.InsertManyAsync(tickets);
+        }
+
+        // ✅ Xóa vé theo ID
+        public async Task<bool> DeleteTicketAsync(string id)
+        {
+            var result = await _tickets.DeleteOneAsync(t => t.Id == id);
+            return result.DeletedCount > 0;
+        }
+
+        // ✅ Lọc vé hỗ trợ tìm kiếm
+        public async Task<List<Ticket>> Find(FilterDefinition<Ticket> filter)
+        {
+            return await _tickets.Find(filter).ToListAsync();
+        }
+
+        // ✅ Lấy tất cả vé (Hỗ trợ phân trang)
+        public async Task<List<Ticket>> GetAllTicketsAsync(int page = 1, int pageSize = 10)
+        {
+            return await _tickets.Find(t => true)
+                                 .Skip((page - 1) * pageSize)
+                                 .Limit(pageSize)
+                                 .ToListAsync();
+        }
+
+      
         // ✅ Lấy danh sách vé theo ID khách hàng (phân trang)
         public async Task<List<Ticket>> GetTicketsByCustomerIdAsync(string customerId, int page, int pageSize)
         {
@@ -164,6 +163,12 @@ namespace TicketAPI.Services
                 .Skip((page - 1) * pageSize)
                 .Limit(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<long> CountByTicketStatus(TicketStatus status)
+        {
+            var countByStatus = await _tickets.CountAsync(f => f.Status == status);
+            return countByStatus;
         }
     }
 }

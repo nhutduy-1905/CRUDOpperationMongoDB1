@@ -16,7 +16,7 @@ namespace TicketAPI.Controllers
     [ApiController] // Xác định đây là API Controller
     public class TicketController : ControllerBase
     {
-        private readonly TicketService _ticketService;
+        private readonly ITicketService _ticketService;
         private readonly CustomerService _customerService;
         // Constructor: Inject TicketService để sử dụng trong controller
         public TicketController(TicketService ticketService, CustomerService customerService)
@@ -52,7 +52,7 @@ namespace TicketAPI.Controllers
                 tickets.CustomerName = customer.CustomerName;
                 tickets.CustomerPhone = customer.CustomerPhone;
                 // Lưu ticket vào database
-                var ticketResult = await _ticketService.CreateAsync(tickets);
+                var ticketResult = await _ticketService.InsertOneAsync(tickets);
                 // trả về kq vừa tạo
                 return Ok(new { success = true, message = "Tạo vé thành công!", data = ticketResult });
             }
@@ -319,7 +319,7 @@ namespace TicketAPI.Controllers
                                 Status = ticketStatus.Value
                             };
 
-                            await _ticketService.CreateAsync(newTicket);
+                            await _ticketService.InsertOneAsync(newTicket);
                         }
                     }
                 }
