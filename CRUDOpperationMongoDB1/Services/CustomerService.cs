@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using CRUDOpperationMongoDB1.Models;
 using MongoDB.Bson;
+using CRUDOpperationMongoDB1.Services;
 namespace TicketAPI.Service
 {
-    public class CustomerService
+    public class CustomerService :ICustomerSerVice
     {
         private readonly IMongoCollection<Customer> _customers;
         public CustomerService(IOptions<MongoDBSettings> settings)
@@ -44,8 +45,7 @@ namespace TicketAPI.Service
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
              await _customers.InsertOneAsync(customer);
-             return customer;
-            
+             return customer;           
         }
     }
 }

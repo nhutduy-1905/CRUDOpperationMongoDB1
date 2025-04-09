@@ -1,9 +1,6 @@
 ﻿using CRUDOpperationMongoDB1.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using System.Text.RegularExpressions;
-using TicketAPI.Mappings;
-using TicketAPI.Models;
 using TicketAPI.Service;
 using TicketAPI.Services;
 
@@ -17,6 +14,26 @@ public class CustomerController : ControllerBase
     {
         _customerService = customerService;
         _ticketService = ticketService;
+    }
+    [HttpGet("get-by-email/{email}")]
+    public async Task<IActionResult> GetCustormerByEmail(string email)
+    {
+        var customer = await _customerService.GetCustomerByEmailAsync(email);
+        if (customer == null)
+            return NotFound(new { success = false, message = "Không tìm thấy khách hàng!" });
+        return Ok(new { success = true, data = customer });
+    }
+    [HttpGet("get-by-customer/{customerId}")]
+    public async Task<IActionResult> GetTicketsByCustomerId(string customerId, int page = 1, int pageSize = 10)
+    {
+        if (string.IsNullOrEmpty(customerId))
+            return BadRequest(new { success = false, message = "CustomerId không hợp lệ!" });
+        if (page < 1 || pageSize < 1)
+        {
+            return BadRequest(new { success = false, message = "Page và  PageSize phải lớn hơn 1!" });
+        }
+        var tickets = await _ticketService.GetTicketsByCustomerIdAsync(customerId, page, pageSize);
+        return Ok(new { success = true, data = tickets });
     }
     // Tạo khách hàng mới
     [HttpPost("create")]
@@ -39,27 +56,21 @@ public class CustomerController : ControllerBase
     }
     private bool IsValidEmail(string email)
     {
-        string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$"; 
         return Regex.IsMatch(email, emailPattern);
     }
-    [HttpGet("get-by-email/{email}")]
-    public async Task<IActionResult> GetCustormerByEmail(string email)
+    [HttpPost("test")]
+    public async Task<IActionResult> Test(string ticketCode)
     {
-        var customer = await _customerService.GetCustomerByEmailAsync(email);
-        if (customer == null)
-            return NotFound(new { success = false, message = "Không tìm thấy khách hàng!" });
-        return Ok(new { success = true, data = customer });
+        var success = IsValidTicketCode(ticketCode);
+        if (success)
+            return Ok(new { success = true, });
+        return BadRequest(new { success = false, });
+       
     }
-    [HttpGet("get-by-customer/{customerId}")]
-    public async Task<IActionResult> GetTicketsByCustomerId(string customerId, int page = 1, int pageSize = 10)
+    private bool IsValidTicketCode(string ticketCode)
     {
-        if (string.IsNullOrEmpty(customerId))
-            return BadRequest(new { success = false, message = "CustomerId không hợp lệ!" });
-        if (page < 1 || pageSize < 1)
-        {
-            return BadRequest(new { success = false, message = "Page và  PageSize phải lớn hơn 1!" });
-        }
-        var tickets = await _ticketService.GetTicketsByCustomerIdAsync(customerId, page, pageSize);
-        return Ok(new {success = true, data = tickets});
+        string ticketCodes = @"^[A-Z0-9]+$";
+        return Regex.IsMatch(ticketCode, ticketCodes);
     }
 }

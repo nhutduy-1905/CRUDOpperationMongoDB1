@@ -1,4 +1,6 @@
-﻿namespace CRUDOpperationMongoDB1.Models
+﻿using CRUDOpperationMongoDB1.Models;
+
+namespace CRUDOpperationMongoDB1.Mappings
 {
     public static class PostMapping
     {

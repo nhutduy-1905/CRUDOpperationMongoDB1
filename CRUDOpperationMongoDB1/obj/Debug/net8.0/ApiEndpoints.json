@@ -58,6 +58,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CustomerController",
+    "Method": "Test",
+    "RelativePath": "api/customers/test",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CRUDOpperationMongoDB1.Controllers.PostController",
     "Method": "CreatePost",
     "RelativePath": "api/posts",
@@ -138,7 +154,7 @@
   },
   {
     "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "GetTicketById",
+    "Method": "GetByIdAsync",
     "RelativePath": "api/tickets/{id}",
     "HttpMethod": "GET",
     "IsController": true,

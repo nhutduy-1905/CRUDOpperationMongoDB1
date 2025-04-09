@@ -13,6 +13,17 @@ namespace CRUDOpperationMongoDB1.Controllers
         {
             _postService = postService;
         }
+        // Get Post By Slug
+        [HttpGet("{slug}")]
+        public async Task<IActionResult> GetPostSlug(string slug)
+        {
+            var post = await _postService.GetPostBySlugAsync(slug);
+            if (post == null)
+            {
+                return NotFound("Không tìm thấy bài viết.");
+            }
+            return Ok(post);
+        }
         // Create post
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromBody] CreatePostDTO postDto)
@@ -56,17 +67,7 @@ namespace CRUDOpperationMongoDB1.Controllers
             }
             return Ok(updatedPost);
         }
-        // Get Post By Slug
-        [HttpGet("{slug}")]
-        public async Task<IActionResult> GetPostSlug(string slug)
-        {
-            var post = await _postService.GetPostBySlugAsync(slug);
-            if (post == null)
-            {
-                return NotFound("Không tìm thấy bài viết.");
-            }
-            return Ok(post);
-        }
+   
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(string id)
         {

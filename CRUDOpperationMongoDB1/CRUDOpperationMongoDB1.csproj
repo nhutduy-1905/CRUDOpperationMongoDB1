@@ -11,6 +11,8 @@
     <UserSecretsId>a1331bad-863a-493a-aed3-73387689de14</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.6.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
@@ -22,4 +24,8 @@
     <ContainerPort Include="8081" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Mappings\" />
+    <None Remove="DTOs\" />
+  </ItemGroup>
 </Project>

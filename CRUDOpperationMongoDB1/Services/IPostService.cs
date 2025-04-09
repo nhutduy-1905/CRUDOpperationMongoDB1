@@ -6,9 +6,8 @@ namespace CRUDOpperationMongoDB1.Services
     {
         Task<Post> CreatePostAsync(CreatePostDTO postDto);
         Task<Post> GetPostBySlugAsync(string slug);
-        Task<Post> UpdatePostAsync(string slug, CreatePostDTO postDto); // Sử dụng slug thay vì id
-        Task<bool> DeletePostAsync(string slug); // Sử dụng slug thay vì id
-
+        Task<Post> UpdatePostAsync(string id, CreatePostDTO postDto); 
+        Task<bool> DeletePostAsync(string id);
         Task<List<Post>> ExportPost();
         Task<List<Post>> ExportByFilter(CreatePostDTO postDto);
     }

@@ -1,4 +1,5 @@
-﻿using CRUDOpperationMongoDB1.Models;
+﻿using CRUDOpperationMongoDB1.Mappings;
+using CRUDOpperationMongoDB1.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -94,9 +95,9 @@ namespace CRUDOpperationMongoDB1.Services
 
             return await _posts.Find(p => p.Id == existingPost.Id).FirstOrDefaultAsync();
         }
-        public async Task<bool> DeletePostAsync(string slug)
+        public async Task<bool> DeletePostAsync(string id)
         {
-            var result = await _posts.DeleteOneAsync(p => p.Slug == slug);
+            var result = await _posts.DeleteOneAsync(p => p.Id== id);
             return result.DeletedCount > 0;
         }
         private string RemoveDiacritics(string text)
