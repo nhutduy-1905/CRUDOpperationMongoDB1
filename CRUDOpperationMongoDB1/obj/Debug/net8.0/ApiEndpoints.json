@@ -1,98 +1,34 @@
 [
   {
-    "ContainingType": "CustomerController",
-    "Method": "CreateCustomer",
-    "RelativePath": "api/customers/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "customerDTO",
-        "Type": "CRUDOpperationMongoDB1.Models.CreateCustomerDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CustomerController",
-    "Method": "GetTicketsByCustomerId",
-    "RelativePath": "api/customers/get-by-customer/{customerId}",
+    "ContainingType": "TicketController",
+    "Method": "GetAll",
+    "RelativePath": "api/Ticket",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "customerId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CustomerController",
-    "Method": "GetCustormerByEmail",
-    "RelativePath": "api/customers/get-by-email/{email}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CustomerController",
-    "Method": "Test",
-    "RelativePath": "api/customers/test",
+    "ContainingType": "TicketController",
+    "Method": "Create",
+    "RelativePath": "api/Ticket",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "ticketCode",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.PostController",
-    "Method": "CreatePost",
-    "RelativePath": "api/posts",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "postDto",
-        "Type": "CRUDOpperationMongoDB1.Models.CreatePostDTO",
+        "Name": "command",
+        "Type": "CRUDOpperationMongoDB1.Application.Command.Tickets.CreateTicketCommand",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.PostController",
-    "Method": "UpdatePost",
-    "RelativePath": "api/posts/{id}",
+    "ContainingType": "TicketController",
+    "Method": "Update",
+    "RelativePath": "api/Ticket/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -103,17 +39,17 @@
         "IsRequired": true
       },
       {
-        "Name": "postDto",
-        "Type": "CRUDOpperationMongoDB1.Models.CreatePostDTO",
+        "Name": "command",
+        "Type": "CRUDOpperationMongoDB1.Application.Command.Tickets.UpdateTicketCommand",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.PostController",
-    "Method": "DeletePost",
-    "RelativePath": "api/posts/{id}",
+    "ContainingType": "TicketController",
+    "Method": "Delete",
+    "RelativePath": "api/Ticket/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -127,125 +63,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.PostController",
-    "Method": "GetPostSlug",
-    "RelativePath": "api/posts/{slug}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "slug",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "GetTickets",
-    "RelativePath": "api/tickets",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "GetByIdAsync",
-    "RelativePath": "api/tickets/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "CreateTicket",
-    "RelativePath": "api/tickets/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "ticketDto",
-        "Type": "TicketAPI.DTOs.CreateTicketDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "CanCelTicket",
-    "RelativePath": "api/tickets/delete/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "DeleteTicket",
-    "RelativePath": "api/tickets/deleted/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "ExportTicketsToExcel",
-    "RelativePath": "api/tickets/export",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "ExportTicketsToExcel",
-    "RelativePath": "api/tickets/export-by-filter",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "ticketDto",
-        "Type": "TicketAPI.DTOs.FilterTicketDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "ExportTicketsToExcel",
-    "RelativePath": "api/tickets/export-location",
+    "ContainingType": "TicketController",
+    "Method": "ExportLocation",
+    "RelativePath": "api/Ticket/export-location",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -264,9 +84,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "ExportTicketsToExcel",
-    "RelativePath": "api/tickets/export-sheet",
+    "ContainingType": "TicketController",
+    "Method": "ExportPaginated",
+    "RelativePath": "api/Ticket/export-sheet",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -285,98 +105,56 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "GetAllTickets",
-    "RelativePath": "api/tickets/GetPageAndPageSize",
+    "ContainingType": "TicketController",
+    "Method": "GetById",
+    "RelativePath": "api/Ticket/Get",
     "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "ImportTicketsFromExcel",
-    "RelativePath": "api/tickets/import",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "file",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "ImportUpdateStatus",
-    "RelativePath": "api/tickets/import-update-status",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updates",
-        "Type": "System.Collections.Generic.List\u00601[[TicketAPI.DTOs.UpdateTicketStatusDTO, CRUDOpperationMongoDB1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TicketAPI.Controllers.TicketController",
-    "Method": "UpdateTicket",
-    "RelativePath": "api/tickets/update/{id}",
-    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "toDTO",
-        "Type": "TicketAPI.DTOs.CreateTicketDTO",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
+    "ContainingType": "TicketController",
+    "Method": "ExportGetPagedExcel",
+    "RelativePath": "api/Ticket/paged/export-excel",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
+    "Parameters": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[CRUDOpperationMongoDB1.WeatherForecast, CRUDOpperationMongoDB1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
-    "EndpointName": "GetWeatherForecast"
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketController",
+    "Method": "SearchTickets",
+    "RelativePath": "api/Ticket/search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "CRUDOpperationMongoDB1.Application.Handler.QueryHandlers.SearchTicketsQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
