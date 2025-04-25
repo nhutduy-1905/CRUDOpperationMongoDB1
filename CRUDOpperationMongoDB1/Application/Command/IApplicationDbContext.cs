@@ -1,17 +1,15 @@
 ﻿using MongoDB.Driver;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using CRUDOpperationMongoDB1.Domain.Entities;
 using CRUDOpperationMongoDB1.Models;
-using Microsoft.Extensions.Options;
 
 namespace CRUDOpperationMongoDB1.Data
 {
     public interface IApplicationDbContext
     {
         IMongoCollection<Ticket> Tickets { get; }
+        IMongoCollection<Customer> Customers { get; }
     }
-
 
     public class ApplicationDbContext : IApplicationDbContext
     {
@@ -24,5 +22,6 @@ namespace CRUDOpperationMongoDB1.Data
         }
 
         public IMongoCollection<Ticket> Tickets => _database.GetCollection<Ticket>("Tickets");
+        public IMongoCollection<Customer> Customers => _database.GetCollection<Customer>("Customers");
     }
 }

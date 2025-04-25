@@ -2,6 +2,7 @@
 using CRUDOpperationMongoDB1.Application.Interfaces;
 using CRUDOpperationMongoDB1.Data;
 using CRUDOpperationMongoDB1.Domain.Entities;
+using CRUDOpperationMongoDB1.Infrastructure.Repositories;
 using CRUDOpperationMongoDB1.Models;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +31,10 @@ builder.Services.AddControllersWithViews();
 // Cấu hình MediatR - tự động quét assembly chứa handler
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateTicketCommandHandler).Assembly));
-
+// Đăng ký IApplicationDbContext và TicketRepository
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();  // Đảm bảo CustomerRepository đã được định nghĩa
 // Cấu hình controller & JSON options để hỗ trợ Enum Serialization
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>

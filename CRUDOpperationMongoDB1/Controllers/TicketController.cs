@@ -7,7 +7,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using System.Net.WebSockets;
 using System.Text;
+using CRUDOpperationMongoDB1.Application.DTO;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -133,6 +135,30 @@ public class TicketController : ControllerBase
         var id = await _mediator.Send(command);
         return Ok(new { TicketId = id });
     }
+    // Import tickets from Excel
+    [HttpPost("import")]
+    public async Task<IActionResult> ImportTickets(IFormFile file)
+    {
+        var result = await _mediator.Send(new ImportTicketsCommand { File = file });
+        return result;
+    }
+    // Export tickets to Excel by filter
+    [HttpPost("export-by-filter")]
+    public async Task<IActionResult> ExportTickets([FromBody] TicketDto filter)
+    {
+        var result = await _mediator.Send(new ExportTicketsQuery { Filter = filter });
+        return result;
+    }
+    // API cap nhat trang thai nhieu ve
+    [HttpPost("import-update-status")]
+    public async Task<IActionResult> ImportUpdateStatus([FromBody] List<UpdateTicketStatusDTO> updates)
+    {
+        var command = new ImportUpdateStatusCommand { Updates = updates };
+        var result = await _mediator.Send(command);
+        if (!result.Success) return BadRequest(result);
+        return Ok(result);
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateTicketCommand command)
     {
@@ -144,6 +170,8 @@ public class TicketController : ControllerBase
         }
         return Ok(new {success = true, result = result});
     }
+
+    
     //DELETE: api/tickets/{id}
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
@@ -155,6 +183,15 @@ public class TicketController : ControllerBase
             return NotFound(new {message = "Ticket not found or already deleted."});
         return Ok(new {message = $"Ticket with id {id} has been successfully deleted."} );
         
+    }
+    // api huy mot ve
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> CancelTicket(string id)
+    {
+        var command = new CancelTicketCommand(id);
+        var result = await _mediator.Send(command);
+        if (!result.Success) return NotFound(result);
+        return Ok(result);
     }
 }
 

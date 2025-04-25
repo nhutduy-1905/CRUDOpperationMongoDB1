@@ -32,4 +32,12 @@
     <None Remove="Mappings\" />
     <None Remove="DTOs\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\Application\Command\Tickets\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\Application\Command\Tickets\.editorconfig" />
+  </ItemGroup>
 </Project>
