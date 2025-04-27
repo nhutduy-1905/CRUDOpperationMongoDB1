@@ -3,7 +3,7 @@ using CRUDOpperationMongoDB1.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using CRUDOpperationMongoDB1.Application.Queries;
+using CRUDOpperationMongoDB1.Application.Queries.TicketsQueries;
 
 namespace CRUDOpperationMongoDB1.Application.Handler.QueryHandlers
 {

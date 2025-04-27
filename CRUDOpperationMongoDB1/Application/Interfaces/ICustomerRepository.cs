@@ -4,8 +4,8 @@ namespace CRUDOpperationMongoDB1.Application.Interfaces
 {
     public interface ICustomerRepository
     {
-        Task AddAsync(Customer customer);
-        Task<Customer> GetByIdAsync(string customerId);
+        Task CreateCustomerAsync(Customer customer);
+        Task<Customer> GetCustomerByIdAsync(string customerId);
  
     }
 }

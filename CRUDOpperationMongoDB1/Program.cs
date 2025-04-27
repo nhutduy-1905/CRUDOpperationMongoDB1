@@ -1,5 +1,10 @@
-﻿using CRUDOpperationMongoDB1.Application.Handler.CommandHandlers;
+﻿using CRUDOpperationMongoDB1.Application.Command.Customer;
+using CRUDOpperationMongoDB1.Application.DTO;
+using CRUDOpperationMongoDB1.Application.Handler.CommandHandlers;
+using CRUDOpperationMongoDB1.Application.Handler.CommandHandlers.Customers;
+using CRUDOpperationMongoDB1.Application.Handler.CustomerQueryHandlers;
 using CRUDOpperationMongoDB1.Application.Interfaces;
+using CRUDOpperationMongoDB1.Application.Queries.Customers;
 using CRUDOpperationMongoDB1.Data;
 using CRUDOpperationMongoDB1.Domain.Entities;
 using CRUDOpperationMongoDB1.Infrastructure.Repositories;
@@ -9,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using OfficeOpenXml;
 using System.Text.Json.Serialization;
 
@@ -17,6 +23,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Đọc cấu hình MongoDB từ appsettings.json
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
+// Đăng ký MongoDB Client và IMongoDatabase
+builder.Services.AddSingleton<IMongoClient>(sp =>
+{
+    var settings = builder.Configuration.GetSection("MongoDbSettings").Get<MongoDBSettings>();
+    return new MongoClient(settings.ConnectionString);
+});
+builder.Services.AddScoped<IMongoDatabase>(sp =>
+{
+    var settings = builder.Configuration.GetSection("MongoDbSettings").Get<MongoDBSettings>();
+    var client = sp.GetRequiredService<IMongoClient>();
+    return client.GetDatabase(settings.DatabaseName);
+});
 
 // Đăng ký IApplicationDbContext và TicketRepository
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
@@ -34,7 +52,11 @@ builder.Services.AddMediatR(cfg =>
 // Đăng ký IApplicationDbContext và TicketRepository
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();  // Đảm bảo CustomerRepository đã được định nghĩa
+// Đăng ký các repository và service
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IRequestHandler<CreateCustomerCommand, string>, CreateCustomerCommandHandler>();
+
+// Đảm bảo CustomerRepository đã được định nghĩa
 // Cấu hình controller & JSON options để hỗ trợ Enum Serialization
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>

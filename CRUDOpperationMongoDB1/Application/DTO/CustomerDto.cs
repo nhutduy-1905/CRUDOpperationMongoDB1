@@ -1,11 +1,11 @@
-﻿
-namespace CRUDOpperationMongoDB1.Domain.Entities
+﻿namespace CRUDOpperationMongoDB1.Application.DTO
 {
-    public class Customer
+    public class CustomerDto
     {
-        public string CustomerId { get; set; } = Guid.NewGuid().ToString();
+        public string CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerPhone { get; set; }
         public string Email { get; set; }
+
     }
 }

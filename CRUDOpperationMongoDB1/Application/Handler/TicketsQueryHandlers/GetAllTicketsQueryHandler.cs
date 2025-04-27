@@ -1,7 +1,7 @@
 ﻿using CRUDOpperationMongoDB1.Application.Interfaces;
-using CRUDOpperationMongoDB1.Application.Queries;
 using MediatR;
 using CRUDOpperationMongoDB1.Domain.Entities;
+using CRUDOpperationMongoDB1.Application.Queries.TicketsQueries;
 
 namespace CRUDOpperationMongoDB1.Application.Handler.QueryHandlers
 {

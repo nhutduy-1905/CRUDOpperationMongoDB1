@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CRUDOpperationMongoDB1.Application.Queries
+namespace CRUDOpperationMongoDB1.Application.Queries.TicketsQueries
 {
     public class ExportTicketsQuery :IRequest<IActionResult>
     {

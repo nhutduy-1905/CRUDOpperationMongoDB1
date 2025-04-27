@@ -1,7 +1,7 @@
 ﻿using CRUDOpperationMongoDB1.Application.DTO;
 using CRUDOpperationMongoDB1.Domain.Enums;
 using MediatR;
-namespace CRUDOpperationMongoDB1.Application.Handler.QueryHandlers
+namespace CRUDOpperationMongoDB1.Application.Queries.TicketsQueries
 {
     public class SearchTicketsQuery : IRequest<List<TicketDto>>
     {

@@ -4,10 +4,13 @@ using CRUDOpperationMongoDB1.Domain.Enums;
 using CRUDOpperationMongoDB1.Shared;
 using MediatR;
 using CRUDOpperationMongoDB1.Application.DTO;
+
+
 namespace CRUDOpperationMongoDB1.Application.Handler.CommandHandlers
+
 {
     // handler xu ly logic huy ve
-    public class CancelTicketHandler : IRequestHandler<CancelTicketCommand, Result>
+    public class CancelTicketHandler : IRequestHandler<CancelTicketCommand, Result<string>>
     {
         private readonly ITicketRepository _ticketRepository;
 
@@ -15,13 +18,14 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CommandHandlers
         {
             _ticketRepository = ticketRepository;
         }
-        public async Task<Result> Handle(CancelTicketCommand request, CancellationToken cancellationToken)
+        // xu ly yeu cau huy ve
+        public async Task<Result<string>> Handle(CancelTicketCommand request, CancellationToken cancellationToken)
         {
             var ticket = await _ticketRepository.GetByIdAsync(request.TicketId);
             if (ticket == null)
-                return Result.Fail("Ve khong ton tai!");
+                return Result<string>.Failure("Ve khong ton tai!");
             await _ticketRepository.UpdateStatusAsync(request.TicketId, TicketStatus.Deleted);
-            return Result.Ok("Ve da huy thanh cong!", new {TicketId = request.TicketId});
+            return Result<string>.Success("Ve da huy thanh cong!");
         }
     }
 }

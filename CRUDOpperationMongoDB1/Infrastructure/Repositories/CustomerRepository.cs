@@ -7,20 +7,20 @@ namespace CRUDOpperationMongoDB1.Infrastructure.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoCollection<Customer> _customers;
 
-        public CustomerRepository(IApplicationDbContext context)
+        public CustomerRepository(IMongoDatabase context)
         {
-            _context = context;
+            _customers= context.GetCollection<Customer>("Customers");
         }
 
-        public async Task AddAsync(Customer customer)
+        public async Task CreateCustomerAsync(Customer customer)
         {
-            await _context.Customers.InsertOneAsync(customer);
+            await _customers.InsertOneAsync(customer);
         }
-        public async Task<Customer> GetByIdAsync(string customerId)
+        public async Task<Customer> GetCustomerByIdAsync(string customerId)
         {
-            return await _context.Customers.Find(c => c.CustomerId == customerId).FirstOrDefaultAsync();
+            return await _customers.Find(x => x.CustomerId == customerId).FirstOrDefaultAsync();
         }
     }
 }

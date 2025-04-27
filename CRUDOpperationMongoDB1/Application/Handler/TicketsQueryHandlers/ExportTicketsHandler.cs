@@ -1,5 +1,5 @@
 ﻿using CRUDOpperationMongoDB1.Application.Interfaces;
-using CRUDOpperationMongoDB1.Application.Queries;
+using CRUDOpperationMongoDB1.Application.Queries.TicketsQueries;
 using CRUDOpperationMongoDB1.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

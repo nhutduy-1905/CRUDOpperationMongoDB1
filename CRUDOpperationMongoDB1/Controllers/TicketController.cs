@@ -1,15 +1,10 @@
 ﻿using CRUDOpperationMongoDB1.Application.Command.Tickets;
-using CRUDOpperationMongoDB1.Application.Handler.QueryHandlers;
 using CRUDOpperationMongoDB1.Application.Queries;
-using CRUDOpperationMongoDB1.Domain.Entities;
-using CRUDOpperationMongoDB1.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using System.Net.WebSockets;
-using System.Text;
 using CRUDOpperationMongoDB1.Application.DTO;
+using CRUDOpperationMongoDB1.Application.Queries.TicketsQueries;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -155,7 +150,7 @@ public class TicketController : ControllerBase
     {
         var command = new ImportUpdateStatusCommand { Updates = updates };
         var result = await _mediator.Send(command);
-        if (!result.Success) return BadRequest(result);
+        if (result == null || result.IsSuccess == false) return BadRequest(result);
         return Ok(result);
     }
 
@@ -190,7 +185,7 @@ public class TicketController : ControllerBase
     {
         var command = new CancelTicketCommand(id);
         var result = await _mediator.Send(command);
-        if (!result.Success) return NotFound(result);
+        if (result == null || result.IsSuccess == false) return NotFound(result);
         return Ok(result);
     }
 }

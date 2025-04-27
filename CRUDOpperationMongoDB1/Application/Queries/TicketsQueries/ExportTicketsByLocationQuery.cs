@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace CRUDOpperationMongoDB1.Application.Queries
+namespace CRUDOpperationMongoDB1.Application.Queries.TicketsQueries
 {
     public class ExportTicketsByLocationQuery : IRequest<byte[]>
     {

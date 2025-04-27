@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using CRUDOpperationMongoDB1.Domain.Entities;
-namespace CRUDOpperationMongoDB1.Application.Queries
+namespace CRUDOpperationMongoDB1.Application.Queries.TicketsQueries
 {
     public class GetTicketByIdQuery : IRequest<Ticket>
     {

@@ -6,6 +6,7 @@ using CRUDOpperationMongoDB1.Application.DTO;
 using CRUDOpperationMongoDB1.Domain.Entities;
 using CRUDOpperationMongoDB1.Domain.Enums;
 using MongoDB.Driver;
+using CRUDOpperationMongoDB1.Application.Queries.TicketsQueries;
 namespace CRUDOpperationMongoDB1.Application.Handler.QueryHandlers
 {
     public class SearchTicketsQueryHandler : IRequestHandler<SearchTicketsQuery, List<TicketDto>>
