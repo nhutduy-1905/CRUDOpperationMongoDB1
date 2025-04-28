@@ -14,6 +14,13 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
+    <Compile Remove="Application\Queries\PostQueries\**" />
+    <Content Remove="Application\Queries\PostQueries\**" />
+    <EmbeddedResource Remove="Application\Queries\PostQueries\**" />
+    <None Remove="Application\Queries\PostQueries\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="EPPlus" Version="7.6.0" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.5.0" />

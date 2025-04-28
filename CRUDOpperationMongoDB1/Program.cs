@@ -1,10 +1,10 @@
 ﻿using CRUDOpperationMongoDB1.Application.Command.Customer;
+using CRUDOpperationMongoDB1.Application.Command.Post;
 using CRUDOpperationMongoDB1.Application.DTO;
 using CRUDOpperationMongoDB1.Application.Handler.CommandHandlers;
 using CRUDOpperationMongoDB1.Application.Handler.CommandHandlers.Customers;
-using CRUDOpperationMongoDB1.Application.Handler.CustomerQueryHandlers;
+using CRUDOpperationMongoDB1.Application.Handler.PostCommandHandlers;
 using CRUDOpperationMongoDB1.Application.Interfaces;
-using CRUDOpperationMongoDB1.Application.Queries.Customers;
 using CRUDOpperationMongoDB1.Data;
 using CRUDOpperationMongoDB1.Domain.Entities;
 using CRUDOpperationMongoDB1.Infrastructure.Repositories;
@@ -20,10 +20,11 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Đọc cấu hình MongoDB từ appsettings.json
+// Đọc MongoDB settings
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
-// Đăng ký MongoDB Client và IMongoDatabase
+
+// Đăng ký MongoClient + Database
 builder.Services.AddSingleton<IMongoClient>(sp =>
 {
     var settings = builder.Configuration.GetSection("MongoDbSettings").Get<MongoDBSettings>();
@@ -36,39 +37,33 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
-// Đăng ký IApplicationDbContext và TicketRepository
+// Đăng ký ApplicationDbContext và Repository
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-
-// Thiết lập License EPPlus
-ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Hoặc LicenseContext.Commercial nếu bạn có giấy phép
-
-// Thêm các dịch vụ vào container DI
-builder.Services.AddControllersWithViews();
-
-// Cấu hình MediatR - tự động quét assembly chứa handler
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(CreateTicketCommandHandler).Assembly));
-// Đăng ký IApplicationDbContext và TicketRepository
-builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-// Đăng ký các repository và service
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IRequestHandler<CreateCustomerCommand, string>, CreateCustomerCommandHandler>();
 
-// Đảm bảo CustomerRepository đã được định nghĩa
-// Cấu hình controller & JSON options để hỗ trợ Enum Serialization
+// Đăng ký AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Đăng ký MediatR cho toàn bộ Assembly
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
+// EPPlus config
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+// Cấu hình Controller & JSON
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
         opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-// Cấu hình Swagger cho testing
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Nếu bạn cần hỗ trợ CORS (cross-origin requests)
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -79,19 +74,15 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Cấu hình middleware pipeline
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Bật CORS nếu cần
 app.UseCors("AllowAll");
-
-app.UseHttpsRedirection(); // Chuyển hướng HTTP sang HTTPS
-app.UseAuthorization(); // Xử lý xác thực và ủy quyền
-
-app.MapControllers(); // Cấu hình routing cho controllers
-
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
 app.Run();

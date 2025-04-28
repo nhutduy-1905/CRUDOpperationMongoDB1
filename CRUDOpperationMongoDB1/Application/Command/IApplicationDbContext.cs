@@ -9,6 +9,7 @@ namespace CRUDOpperationMongoDB1.Data
     {
         IMongoCollection<Ticket> Tickets { get; }
         IMongoCollection<Customer> Customers { get; }
+        IMongoCollection<Post> Post { get; }
     }
 
     public class ApplicationDbContext : IApplicationDbContext
@@ -23,5 +24,8 @@ namespace CRUDOpperationMongoDB1.Data
 
         public IMongoCollection<Ticket> Tickets => _database.GetCollection<Ticket>("Tickets");
         public IMongoCollection<Customer> Customers => _database.GetCollection<Customer>("Customers");
+        public IMongoCollection<Post> Post => _database.GetCollection<Post>("Posts");
+
+
     }
 }

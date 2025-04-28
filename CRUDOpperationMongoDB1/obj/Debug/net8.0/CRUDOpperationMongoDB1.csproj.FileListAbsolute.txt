@@ -71,3 +71,4 @@ D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\C
 D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\CRUDOpperationMongoDB1.genruntimeconfig.cache
 D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\ref\CRUDOpperationMongoDB1.dll
 D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\bin\Debug\net8.0\AutoMapper.dll

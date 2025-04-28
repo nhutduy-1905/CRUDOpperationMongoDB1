@@ -37,6 +37,70 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PostController",
+    "Method": "GetPostBySlug",
+    "RelativePath": "api/Post/{slug}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "slug",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PostController",
+    "Method": "CreatePost",
+    "RelativePath": "api/Post/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CRUDOpperationMongoDB1.Application.Command.Post.CreatePostCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PostController",
+    "Method": "SearchPosts",
+    "RelativePath": "api/Post/search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CRUDOpperationMongoDB1.Application.Queries.PostQuery.SearchPostsQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PostController",
+    "Method": "UpdatePost",
+    "RelativePath": "api/Post/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CRUDOpperationMongoDB1.Application.Command.Post.UpdatePostCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "TicketController",
     "Method": "GetAll",
     "RelativePath": "api/Ticket",
