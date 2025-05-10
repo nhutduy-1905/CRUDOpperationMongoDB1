@@ -14,7 +14,18 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
+    <Compile Remove="Application\Queries\PostQueries\**" />
+    <Content Remove="Application\Queries\PostQueries\**" />
+    <EmbeddedResource Remove="Application\Queries\PostQueries\**" />
+    <None Remove="Application\Queries\PostQueries\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="EPPlus" Version="7.6.0" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
@@ -27,5 +38,13 @@
   <ItemGroup>
     <None Remove="Mappings\" />
     <None Remove="DTOs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\Application\Command\Tickets\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\vlu_cntt\oop\CRUDOpperationMongoDB1\CRUDOpperationMongoDB1\Application\Command\Tickets\.editorconfig" />
   </ItemGroup>
 </Project>
