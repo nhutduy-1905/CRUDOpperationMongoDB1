@@ -17,7 +17,11 @@ namespace CRUDOpperationMongoDB1.Application.Handler.PostQueryHandlers
         }
         public async Task<List<PostDto>> Handle(SearchPostsQuery request, CancellationToken cancellationToken)
         {
-            var posts = await _postRepository.SearchAsync(request.keyWord, request.Page, request.PageSize);
+            var posts = await _postRepository.SearchAsync(request.keyWord);
+            if (posts == null || !posts.Any())
+            {
+                throw new Exception("Không tìm thấy bài viết nào phù hợp với từ khóa");
+            }
             return _mapper.Map<List<PostDto>>(posts);
         }
     }

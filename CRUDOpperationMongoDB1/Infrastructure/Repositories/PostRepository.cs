@@ -1,5 +1,6 @@
 ﻿using CRUDOpperationMongoDB1.Data;
 using CRUDOpperationMongoDB1.Domain.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace CRUDOpperationMongoDB1.Infrastructure.Repositories
@@ -33,7 +34,7 @@ namespace CRUDOpperationMongoDB1.Infrastructure.Repositories
 
         public async Task<Post> UpdateAsync(Post post)
         {
-            var filter = Builders<Post>.Filter.Eq(x => x.Id, post.Id);
+            var filter = Builders<Post>.Filter.Eq(x=> x.Id, post.Id);
             var result = await _posts.ReplaceOneAsync(filter, post);
             if(result.IsAcknowledged && result.ModifiedCount > 0)
             {
@@ -42,19 +43,15 @@ namespace CRUDOpperationMongoDB1.Infrastructure.Repositories
             return null;
         }
 
-        public async Task<List<Post>> SearchAsync(string? keyword, int page, int pageSize)
+        public async Task<List<Post>> SearchAsync(string? keyword)
         {
-            var filter = Builders<Post>.Filter.Empty;
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                filter = Builders<Post>.Filter.Regex(x => x.Title, new MongoDB.Bson.BsonRegularExpression(keyword, "i"));
-            }
+            var filter = Builders<Post>.Filter.Or(
+                          Builders<Post>.Filter.Regex(p => p.Title, new BsonRegularExpression(keyword, "i")),
+                          Builders<Post>.Filter.Regex(p => p.Content, new BsonRegularExpression(keyword, "i"))
+                      );
 
             return await _posts.Find(filter)
                 .SortByDescending(x => x.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Limit(pageSize)
                 .ToListAsync();
         }
     }

@@ -6,6 +6,6 @@ namespace CRUDOpperationMongoDB1.Application.Interfaces
     {
         Task CreateCustomerAsync(Customer customer);
         Task<Customer> GetCustomerByIdAsync(string customerId);
- 
+        Task<Customer?> GetCustomerByEmailAsync(string email);
     }
 }

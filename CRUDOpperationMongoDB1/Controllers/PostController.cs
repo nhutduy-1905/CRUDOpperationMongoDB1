@@ -38,11 +38,14 @@ public class PostController : ControllerBase
     [HttpPost("search")]
     public async Task<IActionResult> SearchPosts([FromBody] SearchPostsQuery request)
     {
-        var result = await _mediator.Send(new SearchPostsQuery(
-            request.keyWord,
-            request.Page,
-            request.PageSize
-        ));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
     }
 }

@@ -18,9 +18,11 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CustomerQueryHandlers
         }
         public async Task<CustomerDto> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
+            // lấy obj customer từ mongo
             var customerId = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
+            // kiểm tra nếu không tồn tại
             if (customerId == null) return null;
-
+            // chuyển sang dto
             var customerDto = CustomerMapper.ToDto(customerId);
             return customerDto;
 

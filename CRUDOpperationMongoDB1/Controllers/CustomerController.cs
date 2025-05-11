@@ -3,6 +3,7 @@ using CRUDOpperationMongoDB1.Application.Handler.QueryHandlers;
 using MediatR;
 using CRUDOpperationMongoDB1.Application.Queries.Customers;
 using Microsoft.AspNetCore.Mvc;
+using CRUDOpperationMongoDB1.Application.Queries.CustomerQueries;
 
 namespace CRUDOpperationMongoDB1.Controllers
 {
@@ -26,6 +27,29 @@ namespace CRUDOpperationMongoDB1.Controllers
             if (customer == null)
                 return NotFound();
             return Ok(customer);
+        }
+        [HttpGet("get-by-email/{email}")]
+        public async Task<IActionResult> GetCustomerByEmail(string email)
+        {
+            try
+            {
+                var customer = await _mediator.Send(new GetCustomerByEmailQuery(email));
+                if (customer == null)
+                    return NotFound(new { success = false, message = "Không tìm thấy khách hàng!" });
+                return Ok(new { success = true, data = customer });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+            catch (MongoDB.Bson.BsonSerializationException ex)
+            {
+                return StatusCode(500, new { success = false, message = "Lỗi ánh xạ dữ liệu MongoDB: " + ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
         }
     }
 }

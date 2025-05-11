@@ -321,5 +321,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
+    "Method": "GetCustomerByEmail",
+    "RelativePath": "get-by-email/{email}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

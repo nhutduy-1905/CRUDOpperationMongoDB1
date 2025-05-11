@@ -22,5 +22,9 @@ namespace CRUDOpperationMongoDB1.Infrastructure.Repositories
         {
             return await _customers.Find(x => x.CustomerId == customerId).FirstOrDefaultAsync();
         }
+        public async Task<Customer> GetCustomerByEmailAsync(string email)
+        {
+            return await _customers.Find(c => c.Email == email).FirstOrDefaultAsync();
+        }
     }
 }

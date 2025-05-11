@@ -16,6 +16,7 @@ public class TicketController : ControllerBase
     {
         _mediator = mediator;
     }
+    // lấy tất cả vé
     // get api/ ticket
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -23,6 +24,7 @@ public class TicketController : ControllerBase
         var result = await _mediator.Send(new GetAllTicketsQuery());
         return Ok(result);
     }
+    // lấy vé theo id
     // get api/ tickets/{id}
     [HttpGet("Get")]
     public async Task<IActionResult> GetById(string id)
@@ -31,6 +33,7 @@ public class TicketController : ControllerBase
         if (result == null) return NotFound();
         return Ok(result);
     }
+    // xuất vé phân trang ra excel
     // new
     [HttpGet("paged/export-excel")]
     public async Task<IActionResult> ExportGetPagedExcel([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
@@ -78,9 +81,7 @@ public class TicketController : ControllerBase
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
     }
-
-
-
+    // xuất vé theo địa điểm from - to
     // new
     [HttpGet("export-location")]
     public async Task<IActionResult> ExportLocation([FromQuery] string? fromAddress, [FromQuery] string? toAddress)
@@ -95,7 +96,7 @@ public class TicketController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    // new
+    // xuất vé theo trang
     [HttpGet("export-sheet")]
     public async Task<IActionResult> ExportPaginated([FromQuery] int page = 1, [FromQuery] int pageSize = 25)
     {
@@ -103,10 +104,7 @@ public class TicketController : ControllerBase
         var result = await _mediator.Send(new ExportTicketsPaginatedQuery { Page = page, PageSize = pageSize });
         return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Tickets_Page{page}.xlsx");
     }
-
-
-
-
+    // tìm kiếm vé
     //  api/tickets/search
     [HttpPost("search")]
     public async Task<IActionResult> SearchTickets([FromBody] SearchTicketsQuery query)
@@ -137,7 +135,7 @@ public class TicketController : ControllerBase
         var result = await _mediator.Send(new ImportTicketsCommand { File = file });
         return result;
     }
-    // Export tickets to Excel by filter
+    // Export vé theo bộ lọc
     [HttpPost("export-by-filter")]
     public async Task<IActionResult> ExportTickets([FromBody] TicketDto filter)
     {
@@ -153,7 +151,7 @@ public class TicketController : ControllerBase
         if (result == null || result.IsSuccess == false) return BadRequest(result);
         return Ok(result);
     }
-
+    //cập nhật vé
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateTicketCommand command)
     {
@@ -165,8 +163,7 @@ public class TicketController : ControllerBase
         }
         return Ok(new {success = true, result = result});
     }
-
-    
+    // xóa vé theo id
     //DELETE: api/tickets/{id}
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
@@ -179,7 +176,7 @@ public class TicketController : ControllerBase
         return Ok(new {message = $"Ticket with id {id} has been successfully deleted."} );
         
     }
-    // api huy mot ve
+    // hủy vé
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> CancelTicket(string id)
     {

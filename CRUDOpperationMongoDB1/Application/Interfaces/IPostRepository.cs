@@ -6,6 +6,6 @@ public interface IPostRepository
     Task<Post> GetBySlugAsync(string slug);
     Task<Post> AddAsync(Post post);
     Task<Post> UpdateAsync(Post post);
-    Task<List<Post>> SearchAsync(string? keyword, int page, int pageSize);
+    Task<List<Post>> SearchAsync(string? keyword);
 }
 
