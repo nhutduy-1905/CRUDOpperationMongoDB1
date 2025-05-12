@@ -1,76 +1,55 @@
-﻿using CRUDOpperationMongoDB1.Models;
+﻿using CRUDOpperationMongoDB1.Application.Command.Customer;
+using CRUDOpperationMongoDB1.Application.Handler.QueryHandlers;
+using MediatR;
+using CRUDOpperationMongoDB1.Application.Queries.Customers;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
-using TicketAPI.Service;
-using TicketAPI.Services;
+using CRUDOpperationMongoDB1.Application.Queries.CustomerQueries;
 
-[Route("api/customers")]
-[ApiController]
-public class CustomerController : ControllerBase
+namespace CRUDOpperationMongoDB1.Controllers
 {
-    private readonly CustomerService _customerService;
-    private readonly TicketService _ticketService;
-    public CustomerController(CustomerService customerService, TicketService ticketService)
+    public class CustomerController : ControllerBase
     {
-        _customerService = customerService;
-        _ticketService = ticketService;
-    }
-    [HttpGet("get-by-email/{email}")]
-    public async Task<IActionResult> GetCustormerByEmail(string email)
-    {
-        var customer = await _customerService.GetCustomerByEmailAsync(email);
-        if (customer == null)
-            return NotFound(new { success = false, message = "Không tìm thấy khách hàng!" });
-        return Ok(new { success = true, data = customer });
-    }
-    [HttpGet("get-by-customer/{customerId}")]
-    public async Task<IActionResult> GetTicketsByCustomerId(string customerId, int page = 1, int pageSize = 10)
-    {
-        if (string.IsNullOrEmpty(customerId))
-            return BadRequest(new { success = false, message = "CustomerId không hợp lệ!" });
-        if (page < 1 || pageSize < 1)
+        private readonly IMediator _mediator;
+        public CustomerController(IMediator mediator)
         {
-            return BadRequest(new { success = false, message = "Page và  PageSize phải lớn hơn 1!" });
+            _mediator = mediator;
         }
-        var tickets = await _ticketService.GetTicketsByCustomerIdAsync(customerId, page, pageSize);
-        return Ok(new { success = true, data = tickets });
-    }
-    // Tạo khách hàng mới
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerDTO customerDTO)
-    {
-        if (string.IsNullOrEmpty(customerDTO.CustomerName) ||
-            string.IsNullOrEmpty(customerDTO.CustomerPhone) ||
-            string.IsNullOrEmpty(customerDTO.Email))
+        [HttpPost("{CreateCustomer}")]
+        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
         {
-            return BadRequest(new { success = false, message = "Thông tin khách hàng không hợp lệ!" });
+            var customerId = await _mediator.Send(command);
+            return Ok (new { CustomerId = customerId });
         }
-        // kiểm tra email
-        if (!IsValidEmail(customerDTO.Email))
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetCustomerById(string customerId)
         {
-            return BadRequest(new { success = false, message = "Email không hợp lệ!" });
+           var customer = await _mediator.Send(new GetCustomerByIdQuery { CustomerId = customerId });
+            if (customer == null)
+                return NotFound();
+            return Ok(customer);
         }
-        var customer = CustomerMapping.ToEntity(customerDTO);
-        var customerResult = await _customerService.CreateCustomerAsync(customer);
-        return Ok(new { success = true, message = "Tạo tài khoản khách hàng thành công!", data = customerResult });
-    }
-    private bool IsValidEmail(string email)
-    {
-        string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$"; 
-        return Regex.IsMatch(email, emailPattern);
-    }
-    [HttpPost("test")]
-    public async Task<IActionResult> Test(string ticketCode)
-    {
-        var success = IsValidTicketCode(ticketCode);
-        if (success)
-            return Ok(new { success = true, });
-        return BadRequest(new { success = false, });
-       
-    }
-    private bool IsValidTicketCode(string ticketCode)
-    {
-        string ticketCodes = @"^[A-Z0-9]+$";
-        return Regex.IsMatch(ticketCode, ticketCodes);
+        [HttpGet("get-by-email/{email}")]
+        public async Task<IActionResult> GetCustomerByEmail(string email)
+        {
+            try
+            {
+                var customer = await _mediator.Send(new GetCustomerByEmailQuery(email));
+                if (customer == null)
+                    return NotFound(new { success = false, message = "Không tìm thấy khách hàng!" });
+                return Ok(new { success = true, data = customer });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+            catch (MongoDB.Bson.BsonSerializationException ex)
+            {
+                return StatusCode(500, new { success = false, message = "Lỗi ánh xạ dữ liệu MongoDB: " + ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
+        }
     }
 }

@@ -5,7 +5,70 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/customers/get-by-email/{email}": {
+    "/{CreateCustomer}": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "CreateCustomer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/{customerId}": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get-by-email/{email}": {
       "get": {
         "tags": [
           "Customer"
@@ -27,66 +90,26 @@
         }
       }
     },
-    "/api/customers/get-by-customer/{customerId}": {
-      "get": {
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "customerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/customers/create": {
+    "/api/Post/create": {
       "post": {
         "tags": [
-          "Customer"
+          "Post"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCustomerDTO"
+                "$ref": "#/components/schemas/CreatePostCommand"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCustomerDTO"
+                "$ref": "#/components/schemas/CreatePostCommand"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCustomerDTO"
+                "$ref": "#/components/schemas/CreatePostCommand"
               }
             }
           }
@@ -98,20 +121,30 @@
         }
       }
     },
-    "/api/customers/test": {
-      "post": {
+    "/api/Post/update": {
+      "put": {
         "tags": [
-          "Customer"
+          "Post"
         ],
-        "parameters": [
-          {
-            "name": "ticketCode",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostCommand"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -119,7 +152,7 @@
         }
       }
     },
-    "/api/posts/{slug}": {
+    "/api/Post/{slug}": {
       "get": {
         "tags": [
           "Post"
@@ -141,7 +174,7 @@
         }
       }
     },
-    "/api/posts": {
+    "/api/Post/search": {
       "post": {
         "tags": [
           "Post"
@@ -150,17 +183,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePostDTO"
+                "$ref": "#/components/schemas/SearchPostsQuery"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePostDTO"
+                "$ref": "#/components/schemas/SearchPostsQuery"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreatePostDTO"
+                "$ref": "#/components/schemas/SearchPostsQuery"
               }
             }
           }
@@ -172,55 +205,56 @@
         }
       }
     },
-    "/api/posts/{id}": {
-      "put": {
+    "/api/Ticket": {
+      "get": {
         "tags": [
-          "Post"
+          "Ticket"
         ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePostDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePostDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePostDTO"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
           }
         }
       },
-      "delete": {
+      "post": {
         "tags": [
-          "Post"
+          "Ticket"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ticket/Get": {
+      "get": {
+        "tags": [
+          "Ticket"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -233,41 +267,7 @@
         }
       }
     },
-    "/api/tickets/{id}": {
-      "get": {
-        "tags": [
-          "Ticket"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/tickets": {
-      "get": {
-        "tags": [
-          "Ticket"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/tickets/GetPageAndPageSize": {
+    "/api/Ticket/paged/export-excel": {
       "get": {
         "tags": [
           "Ticket"
@@ -299,19 +299,7 @@
         }
       }
     },
-    "/api/tickets/export": {
-      "get": {
-        "tags": [
-          "Ticket"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/tickets/export-location": {
+    "/api/Ticket/export-location": {
       "get": {
         "tags": [
           "Ticket"
@@ -339,7 +327,7 @@
         }
       }
     },
-    "/api/tickets/export-sheet": {
+    "/api/Ticket/export-sheet": {
       "get": {
         "tags": [
           "Ticket"
@@ -371,7 +359,7 @@
         }
       }
     },
-    "/api/tickets/create": {
+    "/api/Ticket/search": {
       "post": {
         "tags": [
           "Ticket"
@@ -380,17 +368,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTicketDTO"
+                "$ref": "#/components/schemas/SearchTicketsQuery"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTicketDTO"
+                "$ref": "#/components/schemas/SearchTicketsQuery"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTicketDTO"
+                "$ref": "#/components/schemas/SearchTicketsQuery"
               }
             }
           }
@@ -402,48 +390,7 @@
         }
       }
     },
-    "/api/tickets/update/{id}": {
-      "post": {
-        "tags": [
-          "Ticket"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTicketDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTicketDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTicketDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/tickets/import": {
+    "/api/Ticket/import": {
       "post": {
         "tags": [
           "Ticket"
@@ -475,7 +422,7 @@
         }
       }
     },
-    "/api/tickets/export-by-filter": {
+    "/api/Ticket/export-by-filter": {
       "post": {
         "tags": [
           "Ticket"
@@ -484,17 +431,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FilterTicketDTO"
+                "$ref": "#/components/schemas/TicketDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/FilterTicketDTO"
+                "$ref": "#/components/schemas/TicketDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/FilterTicketDTO"
+                "$ref": "#/components/schemas/TicketDto"
               }
             }
           }
@@ -506,7 +453,7 @@
         }
       }
     },
-    "/api/tickets/import-update-status": {
+    "/api/Ticket/import-update-status": {
       "post": {
         "tags": [
           "Ticket"
@@ -546,7 +493,46 @@
         }
       }
     },
-    "/api/tickets/deleted/{id}": {
+    "/api/Ticket/{id}": {
+      "put": {
+        "tags": [
+          "Ticket"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Ticket"
@@ -568,7 +554,7 @@
         }
       }
     },
-    "/api/tickets/delete/{id}": {
+    "/api/Ticket/delete/{id}": {
       "delete": {
         "tags": [
           "Ticket"
@@ -586,45 +572,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/WeatherForecast": {
-      "get": {
-        "tags": [
-          "WeatherForecast"
-        ],
-        "operationId": "GetWeatherForecast",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -632,7 +579,7 @@
   },
   "components": {
     "schemas": {
-      "CreateCustomerDTO": {
+      "CreateCustomerCommand": {
         "type": "object",
         "properties": {
           "customerName": {
@@ -650,30 +597,27 @@
         },
         "additionalProperties": false
       },
-      "CreatePostDTO": {
-        "required": [
-          "title"
-        ],
+      "CreatePostCommand": {
         "type": "object",
         "properties": {
           "title": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "author": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "CreateTicketDTO": {
+      "CreateTicketCommand": {
         "type": "object",
         "properties": {
-          "customerId": {
-            "type": "string",
-            "nullable": true
-          },
           "ticketType": {
             "type": "string",
             "nullable": true
@@ -697,47 +641,6 @@
           "quantity": {
             "type": "integer",
             "format": "int32"
-          },
-          "status": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "FilterTicketDTO": {
-        "type": "object",
-        "properties": {
-          "customerId": {
-            "type": "string",
-            "nullable": true
-          },
-          "ticketType": {
-            "type": "string",
-            "nullable": true
-          },
-          "fromAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "toAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "fromDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "toDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
           "customerName": {
             "type": "string",
@@ -750,14 +653,171 @@
           "status": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchPostsQuery": {
+        "type": "object",
+        "properties": {
+          "keyWord": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchTicketsQuery": {
+        "type": "object",
+        "properties": {
+          "fromAddress": {
+            "type": "string",
+            "nullable": true
           },
-          "page": {
+          "toAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "ticketType": {
+            "$ref": "#/components/schemas/TicketType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TicketStatus"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TicketDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "ticketType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "toAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "quantity": {
             "type": "integer",
             "format": "int32"
           },
-          "pageSize": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TicketStatus": {
+        "enum": [
+          "Active",
+          "Inactive",
+          "Deleted"
+        ],
+        "type": "string"
+      },
+      "TicketType": {
+        "enum": [
+          "KhuHoi",
+          "MotChieu"
+        ],
+        "type": "string"
+      },
+      "UpdatePostCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateTicketCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "ticketType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "toAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "quantity": {
             "type": "integer",
             "format": "int32"
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -765,40 +825,15 @@
       "UpdateTicketStatusDTO": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
+          "ticketId": {
             "type": "string",
             "nullable": true
           },
           "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
+            "$ref": "#/components/schemas/TicketType"
           },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
+          "status": {
+            "$ref": "#/components/schemas/TicketStatus"
           }
         },
         "additionalProperties": false

@@ -1,82 +1,51 @@
-﻿using CRUDOpperationMongoDB1.Models;
-using CRUDOpperationMongoDB1.Services;
+﻿
+using CRUDOpperationMongoDB1.Application.Command.Post;
+using CRUDOpperationMongoDB1.Application.Queries.PostQuery;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CRUDOpperationMongoDB1.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class PostController : ControllerBase
 {
-    [Route("api/posts")]
-    [ApiController]
-    public class PostController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public PostController(IMediator mediator)
     {
-        private readonly IPostService _postService;
-        public PostController(IPostService postService)
-        {
-            _postService = postService;
-        }
-        // Get Post By Slug
-        [HttpGet("{slug}")]
-        public async Task<IActionResult> GetPostSlug(string slug)
-        {
-            var post = await _postService.GetPostBySlugAsync(slug);
-            if (post == null)
-            {
-                return NotFound("Không tìm thấy bài viết.");
-            }
-            return Ok(post);
-        }
-        // Create post
-        [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] CreatePostDTO postDto)
-        {
-            try
-            {
-                // Kiểm tra dữ liệu đầu vào
-                if (postDto == null || string.IsNullOrWhiteSpace(postDto.Title))
-                {
-                    return BadRequest("Dữ liệu không hợp lệ. Tiêu đề không được để trống.");
-                }
+        _mediator = mediator;
+    }
+    [HttpPost("create")]
+    public async Task<IActionResult> CreatePost([FromBody] CreatePostCommand command)
+    {
+        var postId = await _mediator.Send(command);
+        return Ok(new { Message = "Post created successfully!", PostId = postId });
+    }
+    [HttpPut("update")]
+    public async Task<IActionResult> UpdatePost([FromBody] UpdatePostCommand command)
+    {
+        var result = await _mediator.Send(command);
+        if (!result) return NotFound(new { Message = "Post not found!" });
 
-                // Gọi service để tạo post
-                var post = await _postService.CreatePostAsync(postDto);
-
-                // Trả về response với location của post mới tạo
-                return CreatedAtAction(
-                    nameof(GetPostSlug),
-                    new { slug = post.Slug },
-                    post
-                );
-            }
-            catch (Exception ex)
-            {
-                // Xử lý lỗi nếu có
-                return StatusCode(500, $"Lỗi khi tạo bài viết: {ex.Message}");
-            }
-        }
-        // update post
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePost(string id, [FromBody] CreatePostDTO postDto)
+        return Ok(new { Message = "Post updated successfully!" });
+    }
+    [HttpGet("{slug}")]
+    public async Task<IActionResult> GetPostBySlug(string slug)
+    {
+        var post = await _mediator.Send(new GetPostBySlugQuery(slug));
+        if (post == null) return NotFound(new { Message = "Post not found!" });
+        return Ok(post);
+    }
+    [HttpPost("search")]
+    public async Task<IActionResult> SearchPosts([FromBody] SearchPostsQuery request)
+    {
+        try
         {
-            if (postDto == null)
-            {
-                return BadRequest("Dữ liệu không hợp lệ.");
-            }
-            var updatedPost = await _postService.UpdatePostAsync(id, postDto);
-            if (updatedPost == null)
-            {
-                return NotFound("Không tìm thấy bài viết.");
-            }
-            return Ok(updatedPost);
+            var result = await _mediator.Send(request);
+            return Ok(result);
         }
-   
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePost(string id)
+        catch (Exception ex)
         {
-            var deleted = await _postService.DeletePostAsync(id); 
-            if (!deleted)
-            {
-                return NotFound(new { message =  "Không tìm thấy bài viết để xóa." });
-            }
-            return Ok(new { message = "Bài viết đã được xóa thành công." });
+            return NotFound(new { message = ex.Message });
         }
     }
 }
