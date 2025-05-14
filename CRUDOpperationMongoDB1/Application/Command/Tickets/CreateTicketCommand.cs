@@ -12,9 +12,8 @@ namespace CRUDOpperationMongoDB1.Application.Command.Tickets
         public string ToAddress { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public string CustomerId { get; set; }
         public int Quantity { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerPhone { get; set; }
         public string Status { get; set; }
     }
 }

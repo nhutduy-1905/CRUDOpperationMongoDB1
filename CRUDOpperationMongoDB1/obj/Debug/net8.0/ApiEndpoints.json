@@ -1,27 +1,6 @@
 [
   {
     "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
-    "Method": "CreateCustomer",
-    "RelativePath": "{CreateCustomer}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "CRUDOpperationMongoDB1.Application.Command.Customer.CreateCustomerCommand",
-        "IsRequired": true
-      },
-      {
-        "Name": "CreateCustomer",
-        "Type": "",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
     "Method": "GetCustomerById",
     "RelativePath": "{customerId}",
     "HttpMethod": "GET",
@@ -317,6 +296,22 @@
       {
         "Name": "query",
         "Type": "CRUDOpperationMongoDB1.Application.Queries.TicketsQueries.SearchTicketsQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
+    "Method": "CreateCustomer",
+    "RelativePath": "CreateCustomer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CRUDOpperationMongoDB1.Application.Command.Customer.CreateCustomerCommand",
         "IsRequired": true
       }
     ],

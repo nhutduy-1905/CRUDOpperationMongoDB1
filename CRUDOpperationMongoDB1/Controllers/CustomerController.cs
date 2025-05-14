@@ -14,7 +14,7 @@ namespace CRUDOpperationMongoDB1.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPost("{CreateCustomer}")]
+        [HttpPost("CreateCustomer")]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
         {
             var customerId = await _mediator.Send(command);

@@ -1,9 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System;
-using System.Linq;
-using System.Reflection;
 public static class EnumHelper
 {
         public static string GetDisplayName<TEnum>(this TEnum enumValue) where TEnum : Enum

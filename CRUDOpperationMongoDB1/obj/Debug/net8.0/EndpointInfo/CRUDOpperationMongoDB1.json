@@ -5,20 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/{CreateCustomer}": {
+    "/CreateCustomer": {
       "post": {
         "tags": [
           "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "CreateCustomer",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
         ],
         "requestBody": {
           "content": {
@@ -638,17 +628,13 @@
             "type": "string",
             "format": "date-time"
           },
+          "customerId": {
+            "type": "string",
+            "nullable": true
+          },
           "quantity": {
             "type": "integer",
             "format": "int32"
-          },
-          "customerName": {
-            "type": "string",
-            "nullable": true
-          },
-          "customerPhone": {
-            "type": "string",
-            "nullable": true
           },
           "status": {
             "type": "string",

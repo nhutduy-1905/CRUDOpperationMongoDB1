@@ -9,10 +9,12 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CommandHandlers
     public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, TicketDto>
     {
         private readonly ITicketRepository _ticketRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly ILogger<CreateTicketCommandHandler> _logger;
-        public CreateTicketCommandHandler(ITicketRepository ticketRepository, ILogger<CreateTicketCommandHandler> logger)
+        public CreateTicketCommandHandler(ITicketRepository ticketRepository, ICustomerRepository customerRepository, ILogger<CreateTicketCommandHandler> logger)
         {
             _ticketRepository = ticketRepository;
+            _customerRepository = customerRepository;
             _logger = logger;
         }
         public async Task<TicketDto> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
@@ -20,31 +22,34 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CommandHandlers
 
             try
             {
+                _logger.LogInformation($"Received request to create ticket for CustomerId: {request.CustomerId}");
 
-                _logger.LogInformation($"Recieved request to create ticket with FromAddress: {request.FromAddress}, ToAddress: {request.ToAddress}");
-                // Chuyen tu command sang entity
-                var ticket = TicketMapper.ToEntity(request);
-                // kiem tra du lieu neu khong hop le
-                if (ticket == null)
+                // Tìm khách hàng từ repository
+                var customer = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
+
+                // Kiểm tra nếu không tìm thấy khách hàng
+                if (customer == null)
                 {
-                    _logger.LogWarning("Ticket entity could not be created from command.");
-                    throw new InvalidOperationException("Invalid data, ticket entity could not be created.");
+                    _logger.LogWarning("Customer not found.");
+                    throw new InvalidOperationException("Customer not found.");
                 }
-                // luu vao database
-                await _ticketRepository.AddTicketAsync(ticket);
-                _logger.LogInformation($"Ticket wit ID: {ticket.Id} created successfully.");
 
-                // chuyen tu entity sang dto tra ve client
-                var ticketDto = TicketMapper.ToDto(ticket);
-                return ticketDto;
+                // Tạo vé từ command và customer
+                var ticket = TicketMapper.ToEntity(request, customer);
+
+                // Lưu vé vào repository
+                await _ticketRepository.AddTicketAsync(ticket);
+                _logger.LogInformation($"Ticket with ID: {ticket.Id} created successfully.");
+
+                // Trả về DTO của vé
+                return TicketMapper.ToDto(ticket);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"An error occurred while creating the ticket: {ex.Message}");
-                // co the xu ly loi theo nhu cau cua ban
                 throw;
             }
         }
-       
     }
 }
+        
