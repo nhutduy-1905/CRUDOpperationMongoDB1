@@ -11,19 +11,22 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CustomerQueryHandlers
     public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, CustomerDto>
     {
         private readonly ICustomerRepository _customerRepository;
-
-        public GetCustomerByIdQueryHandler(ICustomerRepository customerRepository)
+        private readonly ILogger<GetCustomerByIdQueryHandler> _logger;
+        public GetCustomerByIdQueryHandler(ICustomerRepository customerRepository, ILogger<GetCustomerByIdQueryHandler> logger)
         {
             _customerRepository = customerRepository;
+            _logger = logger;
         }
         public async Task<CustomerDto> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
-            // lấy obj customer từ mongo
-            var customerId = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
-            // kiểm tra nếu không tồn tại
-            if (customerId == null) return null;
-            // chuyển sang dto
-            var customerDto = CustomerMapper.ToDto(customerId);
+           var result = await _customerRepository.GetCustomerByIdAsync(request.CustomerId, cancellationToken);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                _logger.LogWarning("Customer not found or retrieval failed.");
+                throw new InvalidOperationException("Customer not found.");
+            }
+            var customer = result.Data;
+            var customerDto = CustomerMapper.ToDto(customer);
             return customerDto;
 
         }

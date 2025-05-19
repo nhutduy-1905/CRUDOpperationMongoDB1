@@ -16,6 +16,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
+    "Method": "UpdateCustomer",
+    "RelativePath": "{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "CRUDOpperationMongoDB1.Application.Command.Customer.UpdateCustomerCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
+    "Method": "DeleteCustomer",
+    "RelativePath": "{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PostController",
     "Method": "GetPostBySlug",
     "RelativePath": "api/Post/{slug}",
@@ -313,6 +350,27 @@
         "Name": "command",
         "Type": "CRUDOpperationMongoDB1.Application.Command.Customer.CreateCustomerCommand",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CRUDOpperationMongoDB1.Controllers.CustomerController",
+    "Method": "GetCustomers",
+    "RelativePath": "excel",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

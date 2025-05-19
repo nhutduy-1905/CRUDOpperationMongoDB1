@@ -4,6 +4,7 @@ using CRUDOpperationMongoDB1.Application.Interfaces;
 using CRUDOpperationMongoDB1.Application.Mapper;
 using CRUDOpperationMongoDB1.Application.Queries.CustomerQueries;
 using CRUDOpperationMongoDB1.Domain.Entities;
+using CRUDOpperationMongoDB1.Shared;
 using MediatR;
 using System.Text.RegularExpressions;
 
@@ -27,15 +28,14 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CustomerQueryHandlers
             {
                 throw new AggregateException("Email không hợp lệ.");
             }
-            // tìm khách hàng theo email
-            var customer = await _customerRepository.GetCustomerByEmailAsync(request.Email);
-            //nếu null quăng ra lỗi
-            if (customer == null)
-            {
-                throw new Exception("Không tìm thấy khách hàng.");
-            }
-            // ánh xạ từ entity sang dto
-            return CustomerMapper.ToDto(customer);
+            // nếu thất bại  ném ex
+            Result<Domain.Entities.Customer> repoResult = await _customerRepository.GetCustomerByEmailAsync(request.Email, cancellationToken);
+            if (!repoResult.IsSuccess) throw new KeyNotFoundException(repoResult.ErrorMessage);
+            // thanh công
+            var customerEntity = repoResult.Data;
+            return CustomerMapper.ToDto(customerEntity);
+         
+           
         }
         // hàm kiểm tra email
         private bool IsValidEmail(string email)

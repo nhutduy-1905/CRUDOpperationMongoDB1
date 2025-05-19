@@ -6,5 +6,9 @@ namespace CRUDOpperationMongoDB1.Application.Queries.Customers
     public class GetCustomerByIdQuery : IRequest<CustomerDto>
     {
         public string CustomerId { get; set; }
+        public GetCustomerByIdQuery(string customerId)
+        {
+            CustomerId = customerId;
+        }
     }
 }

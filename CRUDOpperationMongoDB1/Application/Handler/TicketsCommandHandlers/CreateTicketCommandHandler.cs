@@ -25,15 +25,17 @@ namespace CRUDOpperationMongoDB1.Application.Handler.CommandHandlers
                 _logger.LogInformation($"Received request to create ticket for CustomerId: {request.CustomerId}");
 
                 // Tìm khách hàng từ repository
-                var customer = await _customerRepository.GetCustomerByIdAsync(request.CustomerId);
+                var customerResult = await _customerRepository.GetCustomerByIdAsync(request.CustomerId, cancellationToken);
 
                 // Kiểm tra nếu không tìm thấy khách hàng
-                if (customer == null)
+                if (customerResult.IsSuccess || customerResult.Data == null)
                 {
                     _logger.LogWarning("Customer not found.");
                     throw new InvalidOperationException("Customer not found.");
                 }
 
+                // 3. Unwrap ra Customer thật
+                var customer = customerResult.Data;
                 // Tạo vé từ command và customer
                 var ticket = TicketMapper.ToEntity(request, customer);
 

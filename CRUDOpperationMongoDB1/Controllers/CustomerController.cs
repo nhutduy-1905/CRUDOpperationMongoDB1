@@ -4,7 +4,7 @@ using MediatR;
 using CRUDOpperationMongoDB1.Application.Queries.Customers;
 using Microsoft.AspNetCore.Mvc;
 using CRUDOpperationMongoDB1.Application.Queries.CustomerQueries;
-
+using CRUDOpperationMongoDB1.Shared;
 namespace CRUDOpperationMongoDB1.Controllers
 {
     public class CustomerController : ControllerBase
@@ -23,7 +23,7 @@ namespace CRUDOpperationMongoDB1.Controllers
         [HttpGet("{customerId}")]
         public async Task<IActionResult> GetCustomerById(string customerId)
         {
-           var customer = await _mediator.Send(new GetCustomerByIdQuery { CustomerId = customerId });
+           var customer = await _mediator.Send(new GetCustomerByIdQuery(customerId));
             if (customer == null)
                 return NotFound();
             return Ok(customer);
@@ -50,6 +50,26 @@ namespace CRUDOpperationMongoDB1.Controllers
             {
                 return StatusCode(500, new { success = false, message = "Lỗi hệ thống: " + ex.Message });
             }
+        }
+        [HttpGet("excel")]
+        public async Task<IActionResult> GetCustomers([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        {
+            var result = await _mediator.Send(new ListCustomersQuery { Page = page, PageSize = pageSize });
+            return Ok(result);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCustomer(string id, [FromBody] UpdateCustomerCommand command)
+        {
+            if (id != command.CustomerId) return BadRequest(new { success = false, message = "ID không hợp lệ" });
+            var result = await _mediator.Send(command);
+            return Ok(result);
+               
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCustomer(string id)
+        {
+            var result = await _mediator.Send(new DeleteCustomerCommand { CustomerId = id });
+            return result.IsSuccess ? Ok("Xóa thành công") : NotFound(result.ErrorMessage);
         }
     }
 }
