@@ -51,7 +51,7 @@ namespace CRUDOpperationMongoDB1.Controllers
                 return StatusCode(500, new { success = false, message = "Lỗi hệ thống: " + ex.Message });
             }
         }
-        [HttpGet("excel")]
+        [HttpGet("list")]
         public async Task<IActionResult> GetCustomers([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var result = await _mediator.Send(new ListCustomersQuery { Page = page, PageSize = pageSize });
